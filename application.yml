@@ -1,0 +1,21 @@
+mysql:
+  url: 'tcp(192.168.43.9:3306)/weixin?charset=utf8&parseTime=True&loc=Local'
+  username: 'weixin'
+  password: 'gangzi2010'
+  maxlifetime: 600
+  maxidletime: 300
+  maxidlecount: 2
+  maxopen: 10
+
+http:
+  host: '127.0.0.1'
+  port: 8080
+  context: '/goApp/'
+logrus:
+  logpath: ''
+  applogname: 'app.log'
+  ginlogname: 'gin.log'
+  sqllogname: 'sql.log'
+  filemaxsize: 512  #单位M
+  level: 'info'
+  console: true
