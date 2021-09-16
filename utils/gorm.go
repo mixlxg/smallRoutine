@@ -53,6 +53,7 @@ func NewGorm(config *config.Config) (*gorm.DB,error) {
 		}),
 		&gorm.Config{
 			Logger:lger,
+			CreateBatchSize: 5000,
 		})
 	if err ==nil {
 		db,err := gormDb.DB()
