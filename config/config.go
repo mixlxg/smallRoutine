@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"time"
 )
 
 // mysql配置设计到的字段结构体
@@ -32,12 +33,37 @@ type LogrusConfig struct {
 	Level	string					`yaml:"level"`
 	Console bool					`yaml:"console"`
 	FileMaxSize int					`yaml:"filemaxsize"`
+	WeixinLog string				`yaml:"wexinlogname"`
+}
+
+// redis 配置文件结构体
+type RedisConfig struct {
+	Host string			`yaml:"host"`
+	Port int			`yaml:"port"`
+	Password string		`yaml:"password"`
+	MaxIdle int 		`yaml:"maxidle"`
+}
+// session 配置文件结构体
+type SessionConfig struct {
+	MaxAge int		`yaml:"maxAge"`
+	Secret string		`yaml:"secretStr"`
+	SessionId string	`yaml:"sessionId"`
+}
+// 微信小程序使用到相关的参数
+type WeixinConfig struct {
+	HTimeOut time.Duration 	`yaml:"httptimeout"`
+	AppId string			`yaml:"appid"`
+	Secret string			`yaml:"secret"`
+	ExpiresIn uint			`yaml:"tokenExpires"`
 }
 
 type Config struct {
 	Mysql *MysqlConfig					`yaml:"mysql"`
 	Http *HttpConfig					`yaml:"http"`
 	Logrus *LogrusConfig				`yaml:"logrus"`
+	Redis *RedisConfig					`yaml:"redis"`
+	Session *SessionConfig				`yaml:"session"`
+	WeixinConfig *WeixinConfig			`yaml:"weixin"`
 }
 
 func NewConfig(configPath string) (*Config, error)  {

@@ -6,16 +6,31 @@ mysql:
   maxidletime: 300
   maxidlecount: 2
   maxopen: 10
-
 http:
   host: '127.0.0.1'
   port: 8080
-  context: '/goApp/'
+  context: '/'
 logrus:
   logpath: ''
   applogname: 'app.log'
   ginlogname: 'gin.log'
   sqllogname: 'sql.log'
+  wexinlogname:  'weixin.log'
   filemaxsize: 512  #单位M
   level: 'info'
   console: true
+redis:
+  host: '192.168.43.9'
+  port: 6379
+  password: ''
+  maxidle: 10
+session:
+  maxAge: 2592000 # 单位s
+  secretStr: 'secret'
+  sessionId: 'sessionid'
+weixin:
+  httptimeout: 10
+  appid: "asdfasdf"
+  secret: "asdfasdf"
+  tokenExpires: 7200
+

@@ -1,0 +1,106 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /goApp/app/sessionKey     --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-09-23 15:37:13.6935293 +0800 CST m=+62.205473901] GET /login HTTP/1.1 200 5.9774ms PostmanRuntime/7.28.4  13
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /goApp/app/sessionKey     --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-09-23 15:39:16.6743004 +0800 CST m=+5.330262401] GET /login HTTP/1.1 200 6.9812ms PostmanRuntime/7.28.4  13
+127.0.0.1 - [2021-09-23 15:44:18.4286599 +0800 CST m=+307.084621901] GET /app/sessionKey HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+127.0.0.1 - [2021-09-23 15:44:47.0770841 +0800 CST m=+335.733046101] GET /goApp/app/sessionKey HTTP/1.1 200 1.9975ms PostmanRuntime/7.28.4  89
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 401 with 200
+127.0.0.1 - [2021-09-23 15:45:38.3221769 +0800 CST m=+386.978138901] GET /goApp/app/sessionKey HTTP/1.1 200 1.0705ms PostmanRuntime/7.28.4  114
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /goApp/app/sessionKey     --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-09-23 15:48:41.6436341 +0800 CST m=+14.804261601] GET /goApp/app/sessionKey HTTP/1.1 401 0s PostmanRuntime/7.28.4  68
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-09-23 15:50:27.5878689 +0800 CST m=+15.204362301] GET /app/sessionKey HTTP/1.1 401 0s PostmanRuntime/7.28.4  68
+127.0.0.1 - [2021-09-23 15:50:29.8518882 +0800 CST m=+17.468381601] GET /app/sessionKey HTTP/1.1 401 0s PostmanRuntime/7.28.4  68
+127.0.0.1 - [2021-09-23 15:50:57.2212643 +0800 CST m=+44.837757701] GET /login HTTP/1.1 200 6.9795ms PostmanRuntime/7.28.4  13
+127.0.0.1 - [2021-09-23 15:51:56.7042062 +0800 CST m=+104.320699601] GET /app/sessionKey HTTP/1.1 200 997.1µs PostmanRuntime/7.28.4  89
+127.0.0.1 - [2021-09-23 15:54:06.8014544 +0800 CST m=+234.417947801] GET /app/sessionKey HTTP/1.1 200 995.9µs PostmanRuntime/7.28.4  89
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] POST   /app/logout               --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-09-24 11:23:12.2979455 +0800 CST m=+24.650378801] GET /app/sessionKey HTTP/1.1 200 1.0129ms PostmanRuntime/7.28.4  89
+127.0.0.1 - [2021-09-24 11:23:32.1804535 +0800 CST m=+44.532886801] POST /app/logout HTTP/1.1 200 1.0093ms PostmanRuntime/7.28.4  13
+127.0.0.1 - [2021-09-24 11:23:54.8397868 +0800 CST m=+67.192220101] POST /app/sessionKey HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+127.0.0.1 - [2021-09-24 11:24:04.0352443 +0800 CST m=+76.387677601] GET /app/sessionKey HTTP/1.1 200 1.9966ms PostmanRuntime/7.28.4  89
+127.0.0.1 - [2021-09-24 11:25:05.8260175 +0800 CST m=+138.178450801] GET /app/sessionKey HTTP/1.1 200 997.4µs PostmanRuntime/7.28.4  89
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] POST   /app/logout               --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-09-24 11:28:35.319812 +0800 CST m=+5.429315701] GET /app/sessionKey HTTP/1.1 200 1.9928ms PostmanRuntime/7.28.4  89
+127.0.0.1 - [2021-09-24 11:28:50.7306605 +0800 CST m=+20.840164201] POST /app/logout HTTP/1.1 200 1.0007ms PostmanRuntime/7.28.4  13
+127.0.0.1 - [2021-09-24 11:29:12.2092299 +0800 CST m=+42.318733601] GET /app/sessionKey HTTP/1.1 401 1.0023ms PostmanRuntime/7.28.4  68
+127.0.0.1 - [2021-09-24 11:30:20.5229093 +0800 CST m=+110.632413001] GET /app/login HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+127.0.0.1 - [2021-09-24 11:30:29.7952429 +0800 CST m=+119.904746601] GET /login HTTP/1.1 200 5.9787ms PostmanRuntime/7.28.4  13
+127.0.0.1 - [2021-09-24 11:31:25.0633257 +0800 CST m=+175.172829401] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 11:31:26.5782739 +0800 CST m=+176.687777601] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:18:43.0907469 +0800 CST m=+10214.954283101] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:18:44.5279669 +0800 CST m=+10216.391503101] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:19:43.7765769 +0800 CST m=+10275.640113101] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:19:45.7363385 +0800 CST m=+10277.599874701] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:23:16.4714583 +0800 CST m=+10488.334994501] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:23:17.9176704 +0800 CST m=+10489.781206601] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:49:39.0412695 +0800 CST m=+12070.904805701] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 14:49:40.5432532 +0800 CST m=+12072.406789401] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 15:01:03.7868806 +0800 CST m=+12755.650416801] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 15:01:05.5022951 +0800 CST m=+12757.365831301] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 15:55:26.8313684 +0800 CST m=+16018.694904601] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 15:55:28.2683516 +0800 CST m=+16020.131887801] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 15:57:01.8101656 +0800 CST m=+16113.673701801] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 15:57:03.2362674 +0800 CST m=+16115.099803601] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 16:09:11.1244449 +0800 CST m=+16842.987981101] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+127.0.0.1 - [2021-09-24 16:09:12.5635991 +0800 CST m=+16844.427135301] GET /test HTTP/1.1 404 0s Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0  -1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] POST   /app/logout               --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
