@@ -1,0 +1,394 @@
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[10.979ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[42.886ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'roles' AND table_type = 'BASE TABLE'
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[80.784ms] [rows:0] CREATE TABLE `roles` (`id` bigint unsigned AUTO_INCREMENT,`role_name` varchar(20) NOT NULL,PRIMARY KEY (`id`))
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[10.974ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.987ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users' AND table_type = 'BASE TABLE'
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[27.926ms] [rows:0] CREATE TABLE `users` (`id` bigint unsigned AUTO_INCREMENT,`app_id` varchar(100),`user_name` varchar(100) not null UNIQUE,`password` varchar(50) not null,`w_phone` int(12),`phone` int(12),`wx_name` varchar(50),`company` varchar(100) not null,`department` varchar(100),`create_time` datetime(3) NULL,`login_time` datetime(3) NULL,`role_id` bigint unsigned DEFAULT 2,PRIMARY KEY (`id`),CONSTRAINT `fk_roles_user` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`))
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.991ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[6.981ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'activities' AND table_type = 'BASE TABLE'
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[17.946ms] [rows:0] CREATE TABLE `activities` (`id` bigint unsigned AUTO_INCREMENT,`activity_name` varchar(256) not null,`activity_content` varchar(256),`create_time` datetime(3) NULL,`start_time` datetime(3) NULL,`end_time` datetime(3) NULL,PRIMARY KEY (`id`))
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.989ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.991ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'groups' AND table_type = 'BASE TABLE'
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[16.943ms] [rows:0] CREATE TABLE `groups` (`id` bigint unsigned AUTO_INCREMENT,`group_name` varchar(256) not null,`create_time` datetime(3) NULL,`activity_id` bigint unsigned,PRIMARY KEY (`id`),CONSTRAINT `fk_activities_groups` FOREIGN KEY (`activity_id`) REFERENCES `activities`(`id`))
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.995ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[6.982ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users_groups' AND table_type = 'BASE TABLE'
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[13.956ms] [rows:0] CREATE TABLE `users_groups` (`group_id` bigint unsigned,`user_id` bigint unsigned,PRIMARY KEY (`group_id`,`user_id`),CONSTRAINT `fk_users_groups_group` FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`),CONSTRAINT `fk_users_groups_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`))
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[8.983ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'orders' AND table_type = 'BASE TABLE'
+2021/10/13 14:51:01 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[16.939ms] [rows:0] CREATE TABLE `orders` (`id` bigint unsigned AUTO_INCREMENT,`customer` varchar(256) not null,`customer_phone` int(12),`customer_content` varchar(256) not null,`order_time_limit` int(3),`order_money` float(21,2),`order_pic_url` varchar(512),`is_agree` boolean DEFAULT false,`agree_name` varchar(50) not null,`reason` varchar(512),`order_complete_time` datetime(3) NULL,`create_time` datetime(3) NULL,`user_id` bigint unsigned,`activity_id` bigint unsigned,PRIMARY KEY (`id`),CONSTRAINT `fk_activities_orders` FOREIGN KEY (`activity_id`) REFERENCES `activities`(`id`),CONSTRAINT `fk_users_orders` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`))
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[8.974ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.992ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'roles' AND table_type = 'BASE TABLE'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.997ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.992ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'roles'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.990ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users' AND table_type = 'BASE TABLE'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.992ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.992ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[7.878ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `w_phone` int(12)
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[2.991ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `role_id` bigint unsigned DEFAULT 2
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[4.987ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `phone` int(12)
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[6.980ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.985ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users' AND constraint_name = 'fk_roles_user'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.997ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.981ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'activities' AND table_type = 'BASE TABLE'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[0.996ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'activities'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'groups' AND table_type = 'BASE TABLE'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.999ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.992ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'groups'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.992ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.000ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'groups' AND constraint_name = 'fk_activities_groups'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.993ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users_groups' AND table_type = 'BASE TABLE'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.995ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users_groups'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.991ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.984ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_group'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.995ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.992ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_user'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.995ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.992ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'orders' AND table_type = 'BASE TABLE'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.993ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.998ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'orders'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[3.006ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `customer_phone` int(12)
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[2.978ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `order_time_limit` int(3)
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.008ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.990ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_activities_orders'
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.993ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:55:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.996ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_users_orders'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.984ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[9.964ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'roles' AND table_type = 'BASE TABLE'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.999ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[1.990ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'roles'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.993ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.990ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users' AND table_type = 'BASE TABLE'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.999ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[0.993ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[3.000ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `w_phone` int(12)
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[7.038ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `phone` int(12)
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[4.990ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `role_id` bigint unsigned DEFAULT 2
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.990ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[5.988ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users' AND constraint_name = 'fk_roles_user'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.989ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.994ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'activities' AND table_type = 'BASE TABLE'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.998ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[4.986ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'activities'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.991ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.994ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'groups' AND table_type = 'BASE TABLE'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.995ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[15.954ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'groups'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.998ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[5.984ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'groups' AND constraint_name = 'fk_activities_groups'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.997ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.977ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users_groups' AND table_type = 'BASE TABLE'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.992ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[1.995ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users_groups'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.991ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[12.968ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_group'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.992ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_user'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.999ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.993ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'orders' AND table_type = 'BASE TABLE'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.988ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[0.994ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'orders'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[2.996ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `customer_phone` int(12)
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[6.997ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `order_time_limit` int(3)
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.993ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.985ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_users_orders'
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.989ms] [rows:-] SELECT DATABASE()
+2021/10/13 14:58:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.995ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_activities_orders'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[6.024ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'roles' AND table_type = 'BASE TABLE'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.988ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[1.993ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'roles'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.991ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.996ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users' AND table_type = 'BASE TABLE'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[0.997ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[1.995ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[3.988ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `phone` int(12)
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[11.978ms] [rows:0] ALTER TABLE `users` ADD `openid` varchar(100)
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[4.987ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `w_phone` int(12)
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[1.994ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `role_id` bigint unsigned DEFAULT 2
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.000ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[5.986ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users' AND constraint_name = 'fk_roles_user'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.990ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.989ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'activities' AND table_type = 'BASE TABLE'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[0.997ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[6.981ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'activities'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.990ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'groups' AND table_type = 'BASE TABLE'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[3.992ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'groups'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.990ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'groups' AND constraint_name = 'fk_activities_groups'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.991ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.998ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users_groups' AND table_type = 'BASE TABLE'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.980ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.993ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users_groups'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.949ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.003ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_group'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.986ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[4.993ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_user'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.992ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.995ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'orders' AND table_type = 'BASE TABLE'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[5.984ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'orders'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[1.996ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `order_time_limit` int(3)
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[5.984ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `customer_phone` int(12)
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.993ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[25.931ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_activities_orders'
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/13 16:12:12 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.995ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_users_orders'
+2021/10/14 16:59:47 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:35 Error 1054: Unknown column 'D41D8CD98F00B204E9800998ECF8427E' in 'where clause'
+[6.982ms] [rows:0] SELECT * FROM `users` WHERE D41D8CD98F00B204E9800998ECF8427E ORDER BY `users`.`id` LIMIT 1
+2021/10/14 17:01:59 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:35 Error 1054: Unknown column 'D41D8CD98F00B204E9800998ECF8427E' in 'where clause'
+[2.994ms] [rows:0] SELECT * FROM `users` WHERE D41D8CD98F00B204E9800998ECF8427E ORDER BY `users`.`id` LIMIT 1
+2021/10/14 17:21:34 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:36 Error 1054: Unknown column 'E9C98C7556481D33ABDEB8BC39907402' in 'where clause'
+[4.980ms] [rows:0] SELECT * FROM `users` WHERE E9C98C7556481D33ABDEB8BC39907402 ORDER BY `users`.`id` LIMIT 1
+2021/10/14 17:24:52 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:36
+[12.966ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 17:30:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:36
+[10.970ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 17:30:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:104
+[8.978ms] [rows:1] UPDATE `users` SET `login_time`='2021-10-14 17:30:00.308' WHERE `id` = 1
+2021/10/15 11:45:34 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:166
+[46.873ms] [rows:1] SELECT * FROM `users` WHERE user_name='test1' and password='E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 11:45:40 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:166 record not found
+[3.982ms] [rows:0] SELECT * FROM `users` WHERE user_name='test1' and password='DFC5CB26B1B16D7D98D30A55FC2E6AB1' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 14:14:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:166 record not found
+[3.989ms] [rows:0] SELECT * FROM `users` WHERE user_name='test1' and password='DFC5CB26B1B16D7D98D30A55FC2E6AB1' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 14:15:02 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:166 record not found
+[1.995ms] [rows:0] SELECT * FROM `users` WHERE user_name='test1' and password='DFC5CB26B1B16D7D98D30A55FC2E6AB1' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 14:45:35 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:166
+[5.983ms] [rows:1] SELECT * FROM `users` WHERE user_name='test1' and password='E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 14:45:35 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:213
+[4.009ms] [rows:1] UPDATE `users` SET `id`=1,`openid`='111111111111111111111111111',`user_name`='test1',`password`='DFC5CB26B1B16D7D98D30A55FC2E6AB1',`company`='江苏联通',`create_time`='2021-10-14 14:29:18.81',`login_time`='2021-10-15 14:45:35.33',`role_id`=2 WHERE `id` = 1
+2021/10/15 15:04:20 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:177
+[3.988ms] [rows:1] SELECT * FROM `users` WHERE user_name='test2' and password='E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 15:04:20 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:223
+[4.986ms] [rows:1] UPDATE `users` SET `id`=2,`user_name`='test2',`password`='DFC5CB26B1B16D7D98D30A55FC2E6AB1',`company`='江苏联通',`create_time`='2021-10-14 14:37:29.308',`login_time`='2021-10-15 15:04:20.297',`role_id`=2 WHERE `id` = 2
+2021/10/15 15:04:41 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:177 record not found
+[1.996ms] [rows:0] SELECT * FROM `users` WHERE user_name='test2' and password='E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 15:06:32 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:178
+[11.977ms] [rows:1] SELECT * FROM `users` WHERE user_name='test1' and password='DFC5CB26B1B16D7D98D30A55FC2E6AB1' ORDER BY `users`.`id` LIMIT 1
+2021/10/15 15:06:32 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:224 Error 1264: Out of range value for column 'w_phone' at row 1
+[2.993ms] [rows:0] UPDATE `users` SET `id`=1,`openid`='111111111111111111111111111',`user_name`='test1',`password`='695E0AA442D0C79D965EE9DD589C6220',`w_phone`=18260087527,`company`='江苏联通',`create_time`='2021-10-14 14:29:18.81',`login_time`='2021-10-15 15:06:32.104',`role_id`=2 WHERE `id` = 1
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[8.971ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[7.992ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'roles' AND table_type = 'BASE TABLE'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.981ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[3.004ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'roles'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.993ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.989ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users' AND table_type = 'BASE TABLE'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.992ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[13.961ms] [rows:0] ALTER TABLE `users` MODIFY COLUMN `role_id` bigint unsigned DEFAULT 2
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.992ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[6.040ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users' AND constraint_name = 'fk_roles_user'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.003ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'activities' AND table_type = 'BASE TABLE'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[2.994ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'activities'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.999ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'groups' AND table_type = 'BASE TABLE'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.992ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[1.994ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'groups'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.000ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.015ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'groups' AND constraint_name = 'fk_activities_groups'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.994ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.986ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'users_groups' AND table_type = 'BASE TABLE'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[2.003ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[1.988ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'users_groups'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.964ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.994ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_user'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.996ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[15.970ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'users_groups' AND constraint_name = 'fk_users_groups_group'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[7.971ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[2.990ms] [rows:-] SELECT count(*) FROM information_schema.tables WHERE table_schema = 'weixin' AND table_name = 'orders' AND table_type = 'BASE TABLE'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:196
+[1.994ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:205
+[3.990ms] [rows:-] SELECT column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'weixin' AND table_name = 'orders'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/go/pkg/mod/gorm.io/driver/mysql@v1.1.2/migrator.go:82
+[3.989ms] [rows:0] ALTER TABLE `orders` MODIFY COLUMN `order_time_limit` int(3)
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[1.005ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.995ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_activities_orders'
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[3.001ms] [rows:-] SELECT DATABASE()
+2021/10/15 15:13:00 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:167: D:/mixlxgWifeErp/weixin/smallRoutine/model/init.go:11
+[0.985ms] [rows:-] SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'weixin' AND table_name = 'orders' AND constraint_name = 'fk_users_orders'

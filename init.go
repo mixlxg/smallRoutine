@@ -36,6 +36,7 @@ func init()  {
 		basePath = filepath.Dir(basePath)
 	}
 	// 拼接applicaton.yaml 绝对路径
+
 	configPath := filepath.Join(basePath,"application.yml")
 	// 解析获取application.yaml 内容
 	conf,err = config.NewConfig(configPath)

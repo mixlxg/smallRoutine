@@ -104,3 +104,270 @@
 [GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
 [GIN-debug] POST   /app/logout               --> smallRoutine/views.Logout.func1 (5 handlers)
 [GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /login                    --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] GET    /app/sessionKey           --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] POST   /app/logout               --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/modifyPwd             --> github.com/gin-contrib/sessions.Sessions.func1 (3 handlers)
+[GIN-debug] GET    /pd/app/sessionKey        --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/modifyPwd             --> github.com/gin-contrib/sessions.Sessions.func1 (3 handlers)
+[GIN-debug] GET    /pd/app/sessionKey        --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 400 with 503
+
+
+[31m2021/10/14 16:59:47 [Recovery] 2021/10/14 - 16:59:47 panic recovered:
+GET /pd/login HTTP/1.1
+Host: 127.0.0.1:8080
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: sessionid=MTYzMjQ1NDIyOXxOd3dBTkZjMVN6Wk9VMGRVTjFnelJUVXlVMU5QVFVNelNGUlpXVkJVTWpST1NsQklOa0ZDVVVOU1QxTTNURU16VFZoR1RVNVVWMEU9fPYf2HAvRhl-RWuwv_w82OftspoL8tVtGuZvkfe3iitL
+Postman-Token: 84539d39-066b-4f1a-a8a5-0d0e47220ca8
+User-Agent: PostmanRuntime/7.28.4
+
+
+runtime error: invalid memory address or nil pointer dereference
+C:/Go/src/runtime/panic.go:212 (0x55c555)
+	panicmem: panic(memoryError)
+C:/Go/src/runtime/signal_windows.go:246 (0x55c3ed)
+	sigpanic: panicmem()
+D:/mixlxgWifeErp/weixin/smallRoutine/utils/weixinCodeJudge.go:11 (0xcfa8f0)
+	WeixinCodeJudge: if res.ErrCode !=0 {
+D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:63 (0xcfc90d)
+	Login.func1: utils.WeixinCodeJudge(c,rep,logger)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xacc7d7)
+	Sessions.func1: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/recovery.go:83 (0xaca0e6)
+	RecoveryWithWriter.func1: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/logger.go:241 (0xac91d3)
+	LoggerWithConfig.func1: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/gin.go:403 (0xac0499)
+	(*Engine).handleHTTPRequest: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/gin.go:364 (0xabfb74)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+C:/Go/src/net/http/server.go:2843 (0x82dd09)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+C:/Go/src/net/http/server.go:1925 (0x82932c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+C:/Go/src/runtime/asm_amd64.s:1374 (0x57be00)
+	goexit: BYTE	$0x90	// NOP
+[0m
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 503 with 500
+127.0.0.1 - [2021-10-14 16:59:47.6307485 +0800 CST m=+71.791284801] GET /pd/login HTTP/1.1 500 31.9055ms PostmanRuntime/7.28.4  355
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 400 with 503
+
+
+[31m2021/10/14 17:01:59 [Recovery] 2021/10/14 - 17:01:59 panic recovered:
+GET /pd/login HTTP/1.1
+Host: 127.0.0.1:8080
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Postman-Token: 3dc20f2a-3392-4018-bfc8-d94412cd9f7a
+User-Agent: PostmanRuntime/7.28.4
+
+
+runtime error: invalid memory address or nil pointer dereference
+C:/Go/src/runtime/panic.go:212 (0x55c555)
+	panicmem: panic(memoryError)
+C:/Go/src/runtime/signal_windows.go:246 (0x55c3ed)
+	sigpanic: panicmem()
+D:/mixlxgWifeErp/weixin/smallRoutine/utils/weixinCodeJudge.go:11 (0xcfa8f0)
+	WeixinCodeJudge: if res.ErrCode !=0 {
+D:/mixlxgWifeErp/weixin/smallRoutine/views/User.go:63 (0xcfc90d)
+	Login.func1: utils.WeixinCodeJudge(c,rep,logger)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xacc7d7)
+	Sessions.func1: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/recovery.go:83 (0xaca0e6)
+	RecoveryWithWriter.func1: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/logger.go:241 (0xac91d3)
+	LoggerWithConfig.func1: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/context.go:147 (0xab6121)
+	(*Context).Next: c.handlers[c.index](c)
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/gin.go:403 (0xac0499)
+	(*Engine).handleHTTPRequest: c.Next()
+D:/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/gin.go:364 (0xabfb74)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+C:/Go/src/net/http/server.go:2843 (0x82dd09)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+C:/Go/src/net/http/server.go:1925 (0x82932c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+C:/Go/src/runtime/asm_amd64.s:1374 (0x57be00)
+	goexit: BYTE	$0x90	// NOP
+[0m
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 503 with 500
+127.0.0.1 - [2021-10-14 17:01:59.8567847 +0800 CST m=+204.017321001] GET /pd/login HTTP/1.1 500 34.9061ms PostmanRuntime/7.28.4  355
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/modifyPwd             --> github.com/gin-contrib/sessions.Sessions.func1 (3 handlers)
+[GIN-debug] GET    /pd/app/sessionKey        --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-14 17:06:10.1525044 +0800 CST m=+3.816798701] GET /pd/login HTTP/1.1 400 4.9871ms PostmanRuntime/7.28.4  13
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/modifyPwd             --> github.com/gin-contrib/sessions.Sessions.func1 (3 handlers)
+[GIN-debug] GET    /pd/app/sessionKey        --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-14 17:21:34.8328537 +0800 CST m=+55.225658501] GET /pd/login?username=test1&password=gangzi2010&code=111111111111111111 HTTP/1.1 503 7.9718ms PostmanRuntime/7.28.4  104
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/modifyPwd             --> github.com/gin-contrib/sessions.Sessions.func1 (3 handlers)
+[GIN-debug] GET    /pd/app/sessionKey        --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-14 17:24:52.2252955 +0800 CST m=+27.828902901] GET /pd/login?username=test1&password=gangzi2010&code=111111111111111111 HTTP/1.1 503 22.9394ms PostmanRuntime/7.28.4  256
+127.0.0.1 - [2021-10-14 17:30:00.3253581 +0800 CST m=+335.928965501] GET /pd/login?username=test1&password=gangzi2010&code=111111111111111111 HTTP/1.1 200 28.923ms PostmanRuntime/7.28.4  13
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/modifyPwd             --> github.com/gin-contrib/sessions.Sessions.func1 (3 handlers)
+[GIN-debug] GET    /pd/app/sessionKey        --> smallRoutine/views.SessionKey.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/pd/modifyPwd      --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 11:13:55.79191 +0800 CST m=+116.135435101] GET /pd/app/modifyPwd HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+127.0.0.1 - [2021-10-15 11:14:01.9347908 +0800 CST m=+122.278315901] POST /pd/app/modifyPwd HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+127.0.0.1 - [2021-10-15 11:14:46.7023142 +0800 CST m=+167.045839301] POST /pd/app/modifyPwd HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/pd/modifyPwd      --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 11:17:08.0437133 +0800 CST m=+27.041610901] POST /pd/app/modifyPwd HTTP/1.1 404 0s PostmanRuntime/7.28.4  -1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/pd/modifyPwd      --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 11:19:39.6689107 +0800 CST m=+6.655134701] POST /pd/app/modifyPwd HTTP/1.1 400 995.3µs PostmanRuntime/7.28.4  28
+127.0.0.1 - [2021-10-15 11:21:51.9226639 +0800 CST m=+138.908887901] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021 HTTP/1.1 400 995.4µs PostmanRuntime/7.28.4  28
+127.0.0.1 - [2021-10-15 11:23:48.9586998 +0800 CST m=+255.944923801] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 200 996.8µs PostmanRuntime/7.28.4  -1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 11:25:34.0992198 +0800 CST m=+21.617905901] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 200 18.9343ms PostmanRuntime/7.28.4  -1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 11:45:34.3214917 +0800 CST m=+2.470399401] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 200 106.7164ms PostmanRuntime/7.28.4  -1
+127.0.0.1 - [2021-10-15 11:45:40.023958 +0800 CST m=+8.172865701] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 401 11.9805ms PostmanRuntime/7.28.4  49
+127.0.0.1 - [2021-10-15 14:14:13.6549507 +0800 CST m=+8921.803858401] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 400 8.9767ms PostmanRuntime/7.28.4  115
+127.0.0.1 - [2021-10-15 14:14:24.1297194 +0800 CST m=+8932.278627101] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 401 7.9787ms PostmanRuntime/7.28.4  49
+127.0.0.1 - [2021-10-15 14:14:39.4598796 +0800 CST m=+8947.608787301] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 400 995.4µs PostmanRuntime/7.28.4  115
+127.0.0.1 - [2021-10-15 14:15:02.0496429 +0800 CST m=+8970.198550601] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 401 3.994ms PostmanRuntime/7.28.4  49
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 14:45:35.3351183 +0800 CST m=+29.214829901] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 200 14.9633ms PostmanRuntime/7.28.4  13
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 503 with 200
+127.0.0.1 - [2021-10-15 15:04:20.3041851 +0800 CST m=+11.810531801] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 200 16.9559ms PostmanRuntime/7.28.4  56
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 503 with 401
+127.0.0.1 - [2021-10-15 15:04:41.7650267 +0800 CST m=+33.271373401] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 401 4.987ms PostmanRuntime/7.28.4  92
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080
+127.0.0.1 - [2021-10-15 15:05:01.0010881 +0800 CST m=+2.227056101] POST /pd/app/modifyPwd?username=test1&oldpwd=gangzi2010&newpwd=gangzi2021& HTTP/1.1 503 19.9567ms PostmanRuntime/7.28.4  43
+127.0.0.1 - [2021-10-15 15:05:19.3490192 +0800 CST m=+20.574987201] POST /pd/app/modifyPwd HTTP/1.1 503 1.0025ms PostmanRuntime/7.28.4  43
+127.0.0.1 - [2021-10-15 15:06:32.1080091 +0800 CST m=+93.333977101] POST /pd/app/modifyPwd HTTP/1.1 503 16.9435ms PostmanRuntime/7.28.4  85
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /pd/login                 --> smallRoutine/views.Login.func1 (4 handlers)
+[GIN-debug] POST   /pd/app/logout            --> smallRoutine/views.Logout.func1 (5 handlers)
+[GIN-debug] POST   /pd/app/modifyPwd         --> smallRoutine/views.ModifyPwd.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on 127.0.0.1:8080

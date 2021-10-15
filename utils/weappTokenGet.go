@@ -39,11 +39,11 @@ func GetToken(config *config.Config,logger *logrus.Logger) func()(token string, 
 		var result *WeixinAccessTokenResponse = new(WeixinAccessTokenResponse)
 		err = json.NewDecoder(rep.Body).Decode(result)
 		if err !=nil{
-			logger.Error("从微信小程序获取access_token失败，错误信息：%s", err.Error())
+			logger.Errorf("从微信小程序获取access_token失败，错误信息：%s", err.Error())
 			return "",0
 		}
 		if result.ErrCode != 0 {
-			logger.Error("从微信小程序获取access_token失败错误，错误码为：%v,错误信息：%s",result.ErrCode,result.ErrMsg)
+			logger.Errorf("从微信小程序获取access_token失败错误，错误码为：%v,错误信息：%s",result.ErrCode,result.ErrMsg)
 			return "",0
 		}
 		return result.AccessToken,config.WeixinConfig.ExpiresIn

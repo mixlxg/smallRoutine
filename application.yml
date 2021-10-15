@@ -9,7 +9,7 @@ mysql:
 http:
   host: '127.0.0.1'
   port: 8080
-  context: '/'
+  context: '/pd'
 logrus:
   logpath: ''
   applogname: 'app.log'
@@ -30,7 +30,7 @@ session:
   sessionId: 'sessionid'
 weixin:
   httptimeout: 10
-  appid: "asdfasdf"
-  secret: "asdfasdf"
+  appid: "wx5524dcf02da4b29b"
+  secret: "28cd7dfa2273481dd791e1f1572a42e2"
   tokenExpires: 7200
 

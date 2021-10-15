@@ -58,13 +58,15 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB,basepath
 	// 初始化session 中间件
 	router.Use(sessions.Sessions(config.Session.SessionId,store))
 	// 登录接口
-	router.GET(path.Join(config.Http.BaseContext,"/login"),views.Login(logger, config, wsdk))
+	router.GET(path.Join(config.Http.BaseContext,"/login"),views.Login(logger, config, wsdk,gdb))
 	gr := router.Group(path.Join(config.Http.BaseContext,"/app"),middleware.SmallRoutineSessions(logger))
 	{
-		// 前端获取session_key 接口
-		gr.GET("/sessionKey",views.SessionKey(logger))
 		// 用户退出接口
 		gr.POST("/logout", views.Logout(logger))
+		// 修改密码接口
+		gr.POST("/modifyPwd",views.ModifyPwd(logger,gdb))
+
+
 	}
 	//绑定地址端口启动服务
 	err = router.Run(fmt.Sprintf("%s:%d",config.Http.Host,config.Http.Port))

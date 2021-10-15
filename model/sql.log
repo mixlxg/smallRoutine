@@ -1,0 +1,32 @@
+2021/10/14 11:51:11 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:28
+[28.923ms] [rows:1] INSERT INTO `roles` (`role_name`) VALUES ('admin')
+2021/10/14 14:00:17 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:28
+[8.976ms] [rows:1] INSERT INTO `roles` (`role_name`) VALUES ('generalUser')
+2021/10/14 14:29:18 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:35
+[68.808ms] [rows:1] INSERT INTO `users` (`openid`,`user_name`,`password`,`w_phone`,`phone`,`wx_name`,`company`,`department`,`create_time`,`login_time`,`role_id`) VALUES ('','test1','E9C98C7556481D33ABDEB8BC39907402',0,0,'','江苏联通','','2021-10-14 14:29:18.81',NULL,2)
+2021/10/14 14:37:29 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:39
+[53.853ms] [rows:1] INSERT INTO `users` (`openid`,`user_name`,`password`,`w_phone`,`phone`,`wx_name`,`company`,`department`,`create_time`,`login_time`,`role_id`) VALUES ('','test2','E9C98C7556481D33ABDEB8BC39907402',0,0,'','江苏联通','','2021-10-14 14:37:29.308',NULL,2)
+2021/10/14 14:40:56 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:34
+[46.885ms] [rows:1] SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1
+2021/10/14 14:44:38 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:34
+[54.855ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 14:45:10 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:34
+[59.840ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` DESC LIMIT 1
+2021/10/14 15:06:58 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:34
+[4.986ms] [rows:1] SELECT * FROM `roles` WHERE `roles`.`id` = 2
+2021/10/14 15:06:58 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:34
+[52.859ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402'
+2021/10/14 15:12:14 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:34 record not found
+[6.981ms] [rows:0] SELECT * FROM `users` WHERE `users`.`user_name` = 'test3' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 15:27:04 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:35
+[51.861ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 15:28:10 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:35
+[52.859ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 16:07:16 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:35
+[41.888ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 16:07:16 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:42
+[4.987ms] [rows:1] UPDATE `users` SET `openid`='111111111111111111111111111' WHERE `id` = 1
+2021/10/14 17:29:43 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:36
+[69.812ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
+2021/10/14 17:29:43 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:44
+[5.991ms] [rows:1] UPDATE `users` SET `login_time`='2021-10-14 17:29:43.614' WHERE `id` = 1

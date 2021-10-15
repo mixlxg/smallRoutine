@@ -3,6 +3,7 @@ module smallRoutine
 go 1.15
 
 require (
+	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-redis/redis/v8 v8.11.3
