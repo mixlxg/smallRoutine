@@ -59,12 +59,14 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB,basepath
 	router.Use(sessions.Sessions(config.Session.SessionId,store))
 	// 登录接口
 	router.GET(path.Join(config.Http.BaseContext,"/login"),views.Login(logger, config, wsdk,gdb))
+	// 修改密码接口
+	router.POST(path.Join(config.Http.BaseContext,"/app/modifyPwd"),views.ModifyPwd(logger,gdb))
+
 	gr := router.Group(path.Join(config.Http.BaseContext,"/app"),middleware.SmallRoutineSessions(logger))
 	{
 		// 用户退出接口
 		gr.POST("/logout", views.Logout(logger))
-		// 修改密码接口
-		gr.POST("/modifyPwd",views.ModifyPwd(logger,gdb))
+
 
 
 	}

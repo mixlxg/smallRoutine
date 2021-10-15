@@ -70,7 +70,7 @@ func init()  {
 		Transport:     &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify:true},
 		},
-		Timeout:       conf.WeixinConfig.HTimeOut,
+		Timeout:       conf.WeixinConfig.HTimeOut*1000*1000*1000,
 	}
 	// 2. 日志直接使用初始化好的logger
 	wlog := utils.NewWexinLogegr(conf.Logrus)
