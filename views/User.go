@@ -16,7 +16,7 @@ import (
 
 func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb *gorm.DB) gin.HandlerFunc  {
 	return func(c *gin.Context) {
-		code := c.Query("code")
+		code := c.Query("wcode")
 		username := c.Query("username")
 		password := c.Query("password")
 		// username,password,code是否为空校验
