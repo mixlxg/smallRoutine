@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"smallRoutine/model"
+	"smallRoutine/utils"
 )
 
 func CreateActivity(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc {
@@ -19,8 +20,8 @@ func CreateActivity(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		// 判断endtime 是否大于开始时间
-		if (param.EndTime.Unix() - param.StartTime.Unix()) <0{
+		// 判断endTime 是否大于开始时间
+		if (param.EndTime- param.StartTime) <0{
 			logrus.Errorf("开始时间：%v,结束时间:%v,结束时间早于开始时间",param.StartTime,param.EndTime)
 			c.JSON(http.StatusOK,gin.H{
 				"code": 606,
@@ -34,8 +35,8 @@ func CreateActivity(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc {
 				// 活动不存在创建活动
 				activity.ActivityName = param.ActivityName
 				activity.ActivityContent = param.ActivityContent
-				activity.StartTime = param.StartTime
-				activity.EndTime = param.EndTime
+				activity.StartTime = utils.StampToTime(param.StartTime)
+				activity.EndTime = utils.StampToTime(param.EndTime)
 				if err=gdb.Create(&activity).Error;err != nil{
 					logger.Errorf("创建活动：%#v,失败错误信息：%s",activity,err.Error())
 					c.JSON(http.StatusOK,gin.H{
@@ -156,12 +157,12 @@ func UpdateActivity(logger *logrus.Logger, gdb *gorm.DB) gin.HandlerFunc  {
 		// 活动存在更新活动
 		activity.ActivityContent=param.ActivityContent
 		// 判断活动结束时间是否早于开始时间
-		if param.StartTime != nil{
-			if param.EndTime != nil{
+		if param.StartTime != 0{
+			if param.EndTime != 0{
 				// 判断结束时间是否晚于开始时间
-				if (param.EndTime.Unix() - param.StartTime.Unix()) >0{
-					activity.StartTime = param.StartTime
-					activity.EndTime = param.EndTime
+				if (param.EndTime - param.StartTime) >0{
+					activity.StartTime = utils.StampToTime(param.StartTime)
+					activity.EndTime = utils.StampToTime(param.EndTime)
 				}else {
 					logger.Errorf("修改活动：%s 时间，结束时间不能早于开始时间",param.ActivityName)
 					c.JSON(http.StatusOK,gin.H{
@@ -177,7 +178,7 @@ func UpdateActivity(logger *logrus.Logger, gdb *gorm.DB) gin.HandlerFunc  {
 				return
 			}
 		}else {
-			if param.EndTime !=nil{
+			if param.EndTime !=0{
 				logger.Errorf("修改活动：%s，时间开始和结束时间必须传值不能为空",param.ActivityName)
 				c.JSON(http.StatusOK,gin.H{
 					"code": http.StatusBadRequest,

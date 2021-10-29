@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 type MUser struct {
 	//修改密码接口，定义binding model
 	Username	string	`json:"username" binding:"required"`
@@ -44,15 +42,15 @@ type UpdateUser struct {
 type CreateActivity struct {
 	ActivityName string			`json:"ActivityName" binding:"required"`
 	ActivityContent	string		`json:"ActivityContent" binding:"required"`
-	StartTime *time.Time		`json:"StartTime" binding:"required"`
-	EndTime	*time.Time			`json:"EndTime" binding:"required"`
+	StartTime int64		`json:"StartTime" binding:"required"`
+	EndTime	int64		`json:"EndTime" binding:"required"`
 }
 
 type UpdateActivity struct {
 	ActivityName string			`json:"ActivityName" binding:"required"`
 	ActivityContent	string		`json:"ActivityContent" binding:"-"`
-	StartTime *time.Time		`json:"StartTime" binding:"-"`
-	EndTime	*time.Time			`json:"EndTime" binding:"-"`
+	StartTime int64		`json:"StartTime" binding:"-"`
+	EndTime	int64			`json:"EndTime" binding:"-"`
 }
 type ParamGroup struct {
 	GroupName string		`json:"GroupName" binding:"required"`

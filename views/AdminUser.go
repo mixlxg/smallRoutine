@@ -20,7 +20,7 @@ func AdminLogin(logger *logrus.Logger,gdb *gorm.DB, store base64Captcha.Store,co
 		var aUser model.AdminUser
 		if err := c.ShouldBindQuery(&aUser);err !=nil{
 			logger.Errorf("绑定接口参数失败，错误信息：%s",err.Error())
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code": http.StatusServiceUnavailable,
 				"errMsg": err.Error(),
 			})
@@ -29,7 +29,7 @@ func AdminLogin(logger *logrus.Logger,gdb *gorm.DB, store base64Captcha.Store,co
 		// 校验图形验证码
 		if !store.Verify(aUser.CaptchaId,aUser.CaptchaValue,true){
 			logger.Errorf("用户：%s登录图形验证码验证失败",aUser.Username)
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":602,
 			})
 			return
@@ -39,13 +39,13 @@ func AdminLogin(logger *logrus.Logger,gdb *gorm.DB, store base64Captcha.Store,co
 		err := gdb.Where("user_name=? and password=?",aUser.Username, utils.MyMd5(aUser.Password)).Preload("Role").First(&user).Error
 		if errors.Is(err,gorm.ErrRecordNotFound){
 			logger.Errorf("用户：%s登陆管理后台账号或者密码不正确",aUser.Username)
-			c.JSON(http.StatusUnauthorized,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code": http.StatusUnauthorized,
 			})
 			return
 		}else if err !=nil {
 			logger.Errorf("用户：%s登录后台时查询数据库失败，错误信息：%s",aUser.Username,err.Error())
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusServiceUnavailable,
 				"errMsg":err.Error(),
 			})
@@ -54,7 +54,7 @@ func AdminLogin(logger *logrus.Logger,gdb *gorm.DB, store base64Captcha.Store,co
 		// 账号密码验证通过，来判断一下角色是否时admin role的用户
 		if user.Role.RoleName != "admin"{
 			logger.Errorf("用户：%s非admin用户不允许登录管理后台",user.UserName)
-			c.JSON(http.StatusForbidden,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusForbidden,
 			})
 			return
@@ -76,7 +76,7 @@ func AdminLogin(logger *logrus.Logger,gdb *gorm.DB, store base64Captcha.Store,co
 		session.Set("role",user.Role.RoleName)
 		if err = session.Save();err !=nil{
 			logger.Errorf("保存用户：%s 的session失败，错误信息：%s",aUser.Username,err.Error())
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusServiceUnavailable,
 				"errMsg": err.Error(),
 			})
