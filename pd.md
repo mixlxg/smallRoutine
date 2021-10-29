@@ -45,7 +45,7 @@ captchaType		string		验证码类型		可选参数	# 默认是digit，可以为d
 
 ###### 返回值
 
-```json
+```bash
 // 返回值格式json
 {
     "code": 200,	// 200,503
@@ -104,7 +104,7 @@ GET
 
 ###### 返回值
 
-```json
+```bash
 	// 返回格式json
 	{
 		"code":"200/600/401/503/400/601/602"，	 // 必返回
@@ -150,7 +150,7 @@ POST
 
 ###### 返回值
 
-```json
+```bash
 // 返回格式json
 {
     	"code":	200/503	，	//必返
@@ -241,7 +241,7 @@ captchaValue string		图形验证码输入框值		 		必传
 
 ###### 返回值
 
-```json
+```bash
 {
     // 返回格式json
     "code":200/400/503/403/602/401,
@@ -285,7 +285,7 @@ POST
 
 ###### 返回值说明
 
-```
+```bash
 {
     // 返回格式json
     "code":200/503,
@@ -333,7 +333,7 @@ role		string			角色名					可选
 
 ###### 返回参数
 
-```json
+```bash
 // 返回json数据
 {
     "code": "400/200/503",
@@ -456,7 +456,7 @@ role		string			角色名					可选
 
 ###### method
 
-```
+```bash
 POST
 ```
 
@@ -512,13 +512,13 @@ Role			string		角色名称		必传
 
 ###### URL
 
-```
+```bash
 /pd/admin/updateUser
 ```
 
 ###### method
 
-```
+```bash
 POST
 ```
 
@@ -622,7 +622,7 @@ UserName	string	用户名		必传
 
 ###### method
 
-```
+```bash
 POST
 ```
 
