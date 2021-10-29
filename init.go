@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/medivhzhan/weapp/v3"
+	"github.com/mojocn/base64Captcha"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"net/http"
@@ -24,6 +25,7 @@ var gdb *gorm.DB
 var err error
 var store redis.Store
 var wSdk *weapp.Client
+var cstore base64Captcha.Store
 func init()  {
 	// 获取base path
 	basePath,err = os.Getwd()
@@ -85,4 +87,7 @@ func init()  {
 		weapp.WithCache(cache),
 		weapp.WithAccessTokenSetter(utils.GetToken(conf,logger)),
 		)
+	// 图形验证码添加一个redis store
+	crc := utils.NewCaptchaRedisCache(conf.Redis.Host,conf.Redis.Port,conf.Redis.Password,conf.Http.CaptchaTimeout,logger)
+	cstore = crc
 }

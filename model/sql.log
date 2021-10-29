@@ -30,3 +30,5 @@
 [69.812ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test1' AND `users`.`password` = 'E9C98C7556481D33ABDEB8BC39907402' ORDER BY `users`.`id` LIMIT 1
 2021/10/14 17:29:43 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:44
 [5.991ms] [rows:1] UPDATE `users` SET `login_time`='2021-10-14 17:29:43.614' WHERE `id` = 1
+2021/10/27 16:08:50 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:32
+[50.079ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test2' ORDER BY `users`.`id` LIMIT 1

@@ -24,6 +24,7 @@ func NewCache(host string, port int,password string, logger *logrus.Logger) *Red
 	return &RedisCache{
 		ctx: ctx,
 		rdb: redisClient,
+		logger:logger,
 	}
 }
 func(rc *RedisCache) Set(key string, val interface{}, timeout time.Duration)  {

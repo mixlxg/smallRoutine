@@ -79,7 +79,6 @@ type User struct {
 	RoleID uint64			`gorm:"type:int(10);default:2"`
 	Role Role
 }
-
 type Order struct {
 	/*
 		id: 主键，自增id

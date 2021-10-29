@@ -6,6 +6,7 @@ import (
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"github.com/medivhzhan/weapp/v3"
+	"github.com/mojocn/base64Captcha"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"gorm.io/gorm"
@@ -18,7 +19,7 @@ import (
 	"smallRoutine/views"
 )
 
-func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB,basepath string, store redis.Store, wsdk *weapp.Client) (err error)  {
+func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB, store redis.Store,cstore base64Captcha.Store, wsdk *weapp.Client) (err error)  {
 	//初始化gin配置
 	// 关闭gin日志着色配置
 	gin.DisableConsoleColor()
@@ -57,8 +58,10 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB,basepath
 	router.Use(gin.Recovery())
 	// 初始化session 中间件
 	router.Use(sessions.Sessions(config.Session.SessionId,store))
+	// 获取图形验证码的接口
+	router.GET(path.Join(config.Http.BaseContext,"/getCaptcha"),views.GetCaptcha(logger,cstore))
 	// 登录接口
-	router.GET(path.Join(config.Http.BaseContext,"/login"),views.Login(logger, config, wsdk,gdb))
+	router.GET(path.Join(config.Http.BaseContext,"/login"),views.Login(logger, config, wsdk,gdb,cstore))
 	// 修改密码接口
 	router.POST(path.Join(config.Http.BaseContext,"/app/modifyPwd"),views.ModifyPwd(logger,gdb))
 
@@ -68,7 +71,24 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB,basepath
 		gr.POST("/logout", views.Logout(logger))
 
 
-
+	}
+	// 管理后台接口
+	router.GET(path.Join(config.Http.BaseContext,"/admin/login"),views.AdminLogin(logger,gdb,cstore,config))
+	agr := router.Group(path.Join(config.Http.BaseContext,"/admin"),middleware.AdminSessions())
+	{
+		agr.POST("/logout",views.AdminLogout(logger))
+		agr.POST("/queryUser", views.QueryUser(logger,gdb))
+		agr.POST("/createUser",views.CreateUser(logger,gdb))
+		agr.POST("/updateUser",views.UpdateUser(logger,gdb))
+		agr.GET("/delUser",views.DelUser(logger,gdb))
+		agr.POST("/createActivity",views.CreateActivity(logger,gdb))
+		agr.GET("/queryActivity",views.QueryActivity(logger,gdb) )
+		agr.GET("/delActivity",views.DelActivity(logger,gdb))
+		agr.POST("/updateActivity",views.UpdateActivity(logger,gdb))
+		agr.POST("createGroup",views.CreateGroup(logger,gdb))
+		agr.POST("addUsersToGroup",views.AddUsersToGroup(logger,gdb))
+		agr.POST("/delUserFromGroup",views.DelUserFromGroup(logger,gdb))
+		agr.POST("delGroup",views.DelGroup(logger,gdb))
 	}
 	//绑定地址端口启动服务
 	err = router.Run(fmt.Sprintf("%s:%d",config.Http.Host,config.Http.Port))

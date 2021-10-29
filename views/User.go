@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/medivhzhan/weapp/v3"
+	"github.com/mojocn/base64Captcha"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"net/http"
@@ -14,15 +15,31 @@ import (
 	"time"
 )
 
-func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb *gorm.DB) gin.HandlerFunc  {
+func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb *gorm.DB, store base64Captcha.Store) gin.HandlerFunc  {
 	return func(c *gin.Context) {
+		captchaId := c.Query("captchaId")
+		captchaValue := c.Query("captchaValue")
+		if captchaValue =="" || captchaId ==""{
+			logger.Errorf("captchaId,captchaValue不能为空")
+			c.JSON(http.StatusOK,gin.H{
+				"code": 601,
+			})
+			return
+		}
+		// 校验图形验证码
+		if !store.Verify(captchaId,captchaValue,true){
+			c.JSON(http.StatusOK,gin.H{
+				"code":602,
+			})
+			return
+		}
 		code := c.Query("wcode")
 		username := c.Query("username")
 		password := c.Query("password")
 		// username,password,code是否为空校验
 		if username == "" || password == "" || code == "" {
 			logger.Errorf("username,password,code不能存在为空情况")
-			c.JSON(http.StatusBadRequest,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusBadRequest,
 			})
 			return
@@ -36,14 +53,14 @@ func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb 
 		err := gdb.Where(user).First(&user).Error
 		if errors.Is(err,gorm.ErrRecordNotFound){
 			logger.Errorf("username:%s,password:%s用户名密码不正确",username,password)
-			c.JSON(http.StatusUnauthorized,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusUnauthorized,
 			})
 			return
 		}
 		if err !=nil{
 			logger.Errorf("在数据库校验username:%s,password:%s是报错，错误信息：%s",username,password,err.Error())
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusServiceUnavailable,
 				"errMsg":err.Error(),
 			})
@@ -57,7 +74,7 @@ func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb 
 			rep, err:=wsdk.Login(code)
 			if err != nil{
 				logger.Errorf("访问微信小程序登录接口失败，username:%s,password:%s,code:%s，错误信息：%s",username,password,code,err.Error())
-				c.JSON(http.StatusServiceUnavailable,gin.H{
+				c.JSON(http.StatusOK,gin.H{
 					"code":http.StatusServiceUnavailable,
 					"errMsg": err.Error(),
 				})
@@ -71,7 +88,7 @@ func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb 
 			err = gdb.Model(&user).Select("Openid").Updates(user).Error
 			if err != nil{
 				logger.Errorf("更新用户%s的openid:%s失败，错误信息：%s",username,openid,err.Error())
-				c.JSON(http.StatusServiceUnavailable,gin.H{
+				c.JSON(http.StatusOK,gin.H{
 					"code": http.StatusServiceUnavailable,
 					"errMsg": err.Error(),
 				})
@@ -85,7 +102,7 @@ func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb 
 			session.Set("username",username)
 			if err = session.Save();err !=nil{
 				logger.Errorf("保存用户：%s 的session失败，错误信息：%s",username,err.Error())
-				c.JSON(http.StatusServiceUnavailable,gin.H{
+				c.JSON(http.StatusOK,gin.H{
 					"code":http.StatusServiceUnavailable,
 					"errMsg": err.Error(),
 				})
@@ -114,7 +131,7 @@ func Login(logger *logrus.Logger, config *config.Config, wsdk *weapp.Client,gdb 
 			session.Set("password",password)
 			if err = session.Save();err !=nil{
 				logger.Errorf("保存用户%s 的 session失败，错误信息：%s",username,err.Error())
-				c.JSON(http.StatusServiceUnavailable,gin.H{
+				c.JSON(http.StatusOK,gin.H{
 					"code":http.StatusServiceUnavailable,
 					"errMsg": err.Error(),
 				})
@@ -137,7 +154,7 @@ func Logout(logger *logrus.Logger) gin.HandlerFunc  {
 		session.Clear()
 		if err:=session.Save();err !=nil{
 			logger.Errorf("用户%s登出失败，错信息：%s", username,err.Error())
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code": http.StatusServiceUnavailable,
 				"errMsg": err.Error(),
 			})
@@ -155,7 +172,7 @@ func ModifyPwd(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc{
 		// 定义binding struct
 		var mUser model.MUser
 		if err := c.ShouldBindJSON(&mUser);err !=nil{
-			c.JSON(http.StatusBadRequest,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code": http.StatusBadRequest,
 				"errMsg": err.Error(),
 			})
@@ -166,7 +183,7 @@ func ModifyPwd(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc{
 		suser := session.Get("username")
 		if suser != mUser.Username{
 			logger.Errorf("用户:%s 非法修改用户：%s的密码",suser,mUser.Username)
-			c.JSON(http.StatusServiceUnavailable,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code": http.StatusServiceUnavailable,
 				"errMsg": "非法修改密码",
 			})
@@ -178,7 +195,7 @@ func ModifyPwd(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc{
 		err := gdb.Where("user_name=? and password=?",mUser.Username,utils.MyMd5(mUser.OPassword)).First(&user).Error
 		if errors.Is(err,gorm.ErrRecordNotFound){
 			logger.Errorf("用户名：%s 或者密码不正确，请重新输入用户密码",mUser.Username)
-			c.JSON(http.StatusUnauthorized,gin.H{
+			c.JSON(http.StatusOK,gin.H{
 				"code":http.StatusUnauthorized,
 				"errMsg": "用户或密码不正确",
 			})
@@ -197,7 +214,7 @@ func ModifyPwd(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc{
 			err = gdb.Model(&user).Updates(user).Error
 			if err != nil{
 				logger.Errorf("修改用户%s密码失败，错误信息：%s",user.UserName,err.Error())
-				c.JSON(http.StatusServiceUnavailable,gin.H{
+				c.JSON(http.StatusOK,gin.H{
 					"code": http.StatusServiceUnavailable,
 					"errMsg": err.Error(),
 				})
@@ -224,7 +241,7 @@ func ModifyPwd(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc{
 			err = gdb.Model(&user).Updates(user).Error
 			if err != nil{
 				logger.Errorf("修改用户%s密码失败，错误信息：%s",user.UserName,err.Error())
-				c.JSON(http.StatusServiceUnavailable,gin.H{
+				c.JSON(http.StatusOK,gin.H{
 					"code": http.StatusServiceUnavailable,
 					"errMsg": err.Error(),
 				})

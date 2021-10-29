@@ -1,15 +1,12 @@
 package model
 
 import (
-	"errors"
 	"fmt"
-	"gorm.io/gorm"
 	"os"
 	"path/filepath"
 	"smallRoutine/config"
 	"smallRoutine/utils"
 	"testing"
-	"time"
 )
 
 func TestGorm(t *testing.T)  {
@@ -30,19 +27,19 @@ func TestGorm(t *testing.T)  {
 	}
 	t.Logf("初始化数据库%v成功",gdb)
 	user := User{
-		UserName:   "test1",
-		Password:   "E9C98C7556481D33ABDEB8BC39907402",
+		UserName:   "test2",
 	}
 	err = gdb.Where(&user).First(&user).Error
-	if errors.Is(err,gorm.ErrRecordNotFound){
-		t.Log("user不存在")
-	}
-	if user.LoginTime == nil{
-		fmt.Printf("用户为首次登录")
-		currentTime := time.Now()
-		user.LoginTime=&currentTime
-		gdb.Select("LoginTime").Updates(user)
-	}
+	fmt.Println(user.LoginTime)
+	//if errors.Is(err,gorm.ErrRecordNotFound){
+	//	t.Log("user不存在")
+	//}
+	//if user.LoginTime == nil{
+	//	fmt.Printf("用户为首次登录")
+	//	currentTime := time.Now()
+	//	user.LoginTime=&currentTime
+	//	gdb.Select("LoginTime").Updates(user)
+	//}
 	//创建一个测试用户
 	//user := User{
 	//	UserName:   "test2",

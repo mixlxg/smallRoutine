@@ -23,6 +23,7 @@ type HttpConfig struct {
 	Host 		string				`yaml:"host"`
 	Port		int64				`yaml:"port"`
 	BaseContext	string				`yaml:"context"`
+	CaptchaTimeout time.Duration 	`yaml:"captchatimeout"`
 }
 // zap 日志参数
 type LogrusConfig struct {
