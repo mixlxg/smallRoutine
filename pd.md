@@ -20,19 +20,19 @@
 
 ##### 获取图形验证码接口
 
-###### URL地址：
+***URL地址：***
 
 ```bash
 /pd//getCaptcha
 ```
 
-###### method
+**method**
 
 ```bash
 GET
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # query param
@@ -43,7 +43,7 @@ captchaType		string		验证码类型		可选参数	# 默认是digit，可以为d
 
 ​	captchaType 值可以为digit，string，math。
 
-###### 返回值
+**返回值**
 
 ```bash
 // 返回值格式json
@@ -73,23 +73,19 @@ base64 加密的验证码图片数据
 
 ##### 登录接口
 
-###### URL地址
+**URL地址**
 
 ``` bash
 /pd/login
 ```
 
-
-
-###### method
+**method**
 
 ```bash
 GET
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 ```bash
 # 采用parameter query 方式
@@ -102,7 +98,7 @@ GET
 
 ​	解释：无
 
-###### 返回值
+**返回值**
 
 ```bash
 	// 返回格式json
@@ -130,25 +126,25 @@ GET
 
 ##### 登出接口
 
-###### URL地址
+**URL地址**
 
 ```bash
 /pd/app/logout
 ```
 
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-###### 传参说明
+**传参说明**
 
 ```
 无需传参
 ```
 
-###### 返回值
+**返回值**
 
 ```bash
 // 返回格式json
@@ -173,19 +169,19 @@ POST
 
 ##### 修改密码接口
 
-###### URL
+**URL**
 
 ```
 /pd/app/modifyPwd
 ```
 
-###### method
+**method**
 
 ```
 POST
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # 包体传值，application/json
@@ -195,7 +191,7 @@ POST
 	wphone		int			手机号码		可选 		#如果用户不同意授权，也让用户修改密码
 ```
 
-###### 返回值
+**返回值**
 
 ```bash
 // 返回json格式数据
@@ -217,19 +213,19 @@ POST
 
 ##### 管理后台登录接口
 
-###### URL地址
+**URL地址**
 
 ```bash
 /pd/admin/login
 ```
 
-###### method
+**method**
 
 ```bash
 GET
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # query param
@@ -239,7 +235,7 @@ captchaId	string		图形验证码后台验证的唯一id 		  必传
 captchaValue string		图形验证码输入框值		 		必传
 ```
 
-###### 返回值
+**返回值**
 
 ```bash
 {
@@ -263,27 +259,23 @@ captchaValue string		图形验证码输入框值		 		必传
 
 ##### 管理后台用户登出接口
 
-###### URL
+**URL**
 
 ```
 /pd/admin/logout
 ```
 
-
-
-###### method
+**method**
 
 ```
 POST
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 无
 
-###### 返回值说明
+**返回值说明**
 
 ```bash
 {
@@ -297,19 +289,19 @@ POST
 
 ##### 用户账号信息查询接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/queryUser
 ```
 
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # 包体传值，application/json
@@ -331,7 +323,7 @@ role		string			角色名					可选
 # role
 ```
 
-###### 返回参数
+**返回参数**
 
 ```bash
 // 返回json数据
@@ -448,19 +440,19 @@ role		string			角色名					可选
 
 ##### 用户创建接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/createUser
 ```
 
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # body体传值 json
@@ -472,7 +464,7 @@ Department		string		部门名称		可选
 Role			string		角色名称		必传
 ```
 
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 # 返回数据为json格式
@@ -510,19 +502,19 @@ Role			string		角色名称		必传
 
 ##### 用户更新接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/updateUser
 ```
 
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # body传参，json格式
@@ -535,7 +527,7 @@ Role			string		角色名称		可选
 
 ```
 
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 # 返回数据为json格式
@@ -572,26 +564,26 @@ Role			string		角色名称		可选
 
 ##### 删除用户接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/delUser
 ```
 
-###### method
+**method**
 
 ```bash
 GET
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # query param
 UserName	string	用户名		必传
 ```
 
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -614,19 +606,19 @@ UserName	string	用户名		必传
 
 ##### 创建活动接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/createActivity
 ```
 
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # body传值 json
@@ -636,7 +628,7 @@ StartTime			string		开始时间	必传		// "2021-10-27T23:25:30.511+08:00"  RFC
 EndTime				string		结束时间	必传		//"2021-10-28T23:25:30.511+08:00"   RFC3339 
 ```
 
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -671,32 +663,26 @@ EndTime				string		结束时间	必传		//"2021-10-28T23:25:30.511+08:00"   RFC3
 
 ##### 删除活动接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/delActivity
 ```
 
-
-
-###### method
+**method**
 
 ```bash
 GET
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 ```bash
 # param query
 ActivityName		string		活动名称		#必传
 ```
 
-
-
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -727,23 +713,19 @@ http://127.0.0.1:8080/pd/admin/delActivity?ActivityName=一个测试活动
 
 ##### 活动信息修改接口
 
-###### URL
+**URL**
 
 ```
 /pd/admin/updateActivity
 ```
 
-
-
-###### method
+**method**
 
 ```
 POST
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 ```bash
 # body传值 json
@@ -753,9 +735,7 @@ StartTime			string		开始时间	可选		// "2021-10-27T23:25:30.511+08:00"  RFC
 EndTime				string		结束时间	可选		//"2021-10-28T23:25:30.511+08:00"   RFC3339 
 ```
 
-
-
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -816,19 +796,19 @@ EndTime				string		结束时间	可选		//"2021-10-28T23:25:30.511+08:00"   RFC3
 
 ##### 创建战队接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/createGroup
 ```
 
-###### method
+**method**
 
 ```bash
 GET
 ```
 
-###### 传参说明
+**传参说明**
 
 ```bash
 # body  json
@@ -836,7 +816,7 @@ GroupName 		string		战队名称	必传
 ActivityName		string		活动名称	必传
 ```
 
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -880,21 +860,19 @@ ActivityName		string		活动名称	必传
 
 ##### 添加用户到战队接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/addUsersToGroup
 ```
 
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 ```bash
 # body json
@@ -903,9 +881,7 @@ ActivityName		string		活动名称	必传
 Users			array			用户名列表	必传
 ```
 
-
-
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -949,23 +925,19 @@ Users			array			用户名列表	必传
 
 ##### 从战队中删除用户接口
 
-###### URL
+**URL**
 
 ```
 /pd/admin/delUserFromGroup
 ```
 
-
-
-###### method
+**method**
 
 ```
 POST
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 ```bash
 # body json
@@ -974,9 +946,7 @@ ActivityName		string		活动名称	必传
 Users			array			用户名列表	必传
 ```
 
-
-
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
@@ -1011,23 +981,19 @@ Users			array			用户名列表	必传
 
 ##### 删除战队接口
 
-###### URL
+**URL**
 
 ```bash
 /pd/admin/delGroup
 ```
 
-
-
-###### method
+**method**
 
 ```bash
 POST
 ```
 
-
-
-###### 传参说明
+**传参说明**
 
 ```bash
 # body json
@@ -1035,9 +1001,7 @@ GroupName 		string		战队名称	必传
 ActivityName		string		活动名称	必传
 ```
 
-
-
-###### 返回参数说明
+**返回参数说明**
 
 ```bash
 {
