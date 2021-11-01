@@ -155,7 +155,7 @@ POST
 - **返回值**
 
 ```bash
-// 返回格式json
+# 返回格式json
 {
     	"code":	200/503	，	//必返
 		"errMsg": "xxx"		//返回码503时返回
@@ -220,6 +220,59 @@ POST
 400：非法传参
 503：调用接口失败
 ```
+
+---
+
+##### 普通用户查询战队活动信息接口
+
+- **URL**
+
+  ```
+  /pd/app/getGroupActivityMess
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  无参数
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```bash
+  # 返回格式json
+  {
+      	"code":	200/503	，	//必返
+  		"errMsg": "xxx"		//返回码503时返回
+  }
+  ```
+
+  解释
+
+  ```bash
+  # code码状态：
+  	200： 登出成功
+  	503： 接口调用失败
+  # errMsg
+  	当code返回503时，返回的一个错误信息
+  
+  # 案例
+  
+  ```
+
+  
 
 ---
 
@@ -811,7 +864,7 @@ http://127.0.0.1:8080/pd/admin/delActivity?ActivityName=一个测试活动
 - **传参说明**
 
   ```bash
-  #body传值 json
+  #query param
   ActivityName		string		活动名称	可选		// 主要于后台区分唯一活动的标识
   ```
 
@@ -1341,7 +1394,77 @@ ActivityName		string		活动名称	必传
 }
 ```
 
+---
 
+##### 战队修改接口
+
+- **URL**
+
+  ```bash
+  /pd/admin/modifyGroup
+  ```
+
+  
+
+- **method**
+
+  ```bash
+  POST
+  ```
+
+  
+
+- **传参说明**
+
+  ```bash
+  # body json
+  GroupName 		string		战队名称	必传
+  ActivityName		string		活动名称	必传
+  NGroupName		string			新战队名称	可选
+  NActivityName	string			新活动名称	可选
+  ```
+
+  解释：
+
+  ```bash
+  战队可以修改的属性是：战队名称和对应的活动归属
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```bash
+  {
+  	"code": 200/400/503,
+  	"errMsg": "xxxx",
+  }
+  ```
+
+  解释：
+
+  ```bash
+  # code
+  200: 正常返回值
+  400：传参错误
+  503： 服务端处理失败
+  #errMsg
+  503是返回错误信息，用于排错
+  #样例 修改战队名称
+  #入参
+  {
+      "GroupName":"东方战神",
+      "ActivityName":"一个测试活动2",
+      "NGroupName": "西方战队",
+      "NActivityName": "一个测试活动1"
+  }
+  # 出参
+  {
+      "code": 200
+  }
+  ```
+
+  
 
 
 
