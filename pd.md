@@ -326,8 +326,10 @@ POST
 ```bash
 # 包体传值，application/json
 query_type		string		查询用户信息的类型		必传		# 可以传role，user，all，			                                                                            # detail_user_by_role,detail_role_by_user
+															# detail_user_by_company
 username	string			用户名					可选		
 role		string			角色名					可选
+company		string			公司名称				可选
 ```
 
 ​	解释：
@@ -339,6 +341,7 @@ role		string			角色名					可选
 传参all时，返回所有的角色和用户，以及他们的对应关系
 传参detail_user_by_role 根据参数role查询用户信息
 传参detail_role_by_user 根据username查询用户所属的角色
+传参detail_user_by_company 根据company查询用户所属的角色，如果company为空自查询所有公司对应用户信息
 # username
 # role
 ```
@@ -454,6 +457,38 @@ role		string			角色名					可选
 {
     "code": 200,
     "data": "admin"
+}
+# 例子6 查用公司和用户对应关系
+# 入参：
+{
+    "query_type":"detail_user_by_company"
+}
+#出参
+{
+    "code": 200,
+    "data": {
+        "攀登": [
+            "admin"
+        ],
+        "江苏联通": [
+            "test2",
+            "吕秀刚"
+        ]
+    }
+}
+# 入参
+{
+    "query_type":"detail_user_by_company",
+    "company":"攀登"
+}
+# 出参
+{
+    "code": 200,
+    "data": {
+        "攀登": [
+            "admin"
+        ]
+    }
 }
 
 ```
@@ -660,6 +695,7 @@ POST
 # body传值 json
 ActivityName		string		活动名称	必传		// 主要于后台区分唯一活动的标识
 ActivityContent		string		活动描述	必选	// 用于展示给用户看，可能存在活动相同的情况，所以这个字段类似别名
+ActivityType		string		活动类型	必须	// 做成一个select框可选则为（B2C/B2B） B2C代表面向用户，B2B面向企业
 StartTime			int		开始时间戳	必传		
 EndTime				int		结束时间戳	必传		
 ```
@@ -754,6 +790,109 @@ http://127.0.0.1:8080/pd/admin/delActivity?ActivityName=一个测试活动
 
 ---
 
+##### 活动信息查询接口
+
+- **URL**
+
+  ```bash
+  /pd/admin/
+  ```
+
+  
+
+- **method**
+
+  ```bash
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  ```bash
+  #body传值 json
+  ActivityName		string		活动名称	可选		// 主要于后台区分唯一活动的标识
+  ```
+
+  解释：
+
+  ```
+  #ActivityName
+  当ActivityName 不传时返回所有活动信息，如果ActivityName有值返回要查询的活动信息
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```bash
+  {
+  	"code": 200/503,
+  	"errMsg": "xxxx",
+  }
+  ```
+
+  解释：
+
+  ```bash
+  # code
+  200: 正常返回值
+  503： 服务端处理失败
+  #errMsg
+  503是返回错误信息，用于排错
+  # 样例1 查询全部活动信息
+  # 入参
+  http://127.0.0.1:8080/pd/admin/queryActivity
+  #出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityContent": "",    //活动名称别名，用于小程序用户显示
+              "ActivityName": "一个测试活动1", // 活动唯一名称
+              "ActivityType": "",   // 活动类型，B2B,B2C用于创建不同类型订单
+              "EndTime": 1638113130, //活动结束时间
+              "StartTime": 1635348330 //后动开始时间
+          },
+          {
+              "ActivityContent": "这是我的update测试2",
+              "ActivityName": "一个测试活动2",
+              "ActivityType": "",
+              "EndTime": 1635579983,
+              "StartTime": 1635493583
+          },
+          {
+              "ActivityContent": "南京加油",
+              "ActivityName": "修改时间戳类型测试活动",
+              "ActivityType": "",
+              "EndTime": 1635579983,
+              "StartTime": 1635493583
+          }
+      ]
+  }
+  # 样例2 更加活动名称查询活动信息接口
+  # 入参
+  http://127.0.0.1:8080/pd/admin/queryActivity?ActivityName=一个测试活动1
+  # 出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityContent": "",
+              "ActivityName": "一个测试活动1",
+              "ActivityType": "",
+              "EndTime": 1638113130,
+              "StartTime": 1635348330
+          }
+      ]
+  }
+  ```
+
+  
+
+---
+
 
 
 ##### 活动信息修改接口
@@ -776,6 +915,7 @@ POST
 # body传值 json
 ActivityName		string		活动名称	必传		// 主要于后台区分唯一活动的标识
 ActivityContent		string		活动描述	可选	// 用于展示给用户看，可能存在活动相同的情况，所以这个字段类似别名
+ActivityType		string		活动类型	可选	// 做成一个select框可选则为（B2C/B2B） B2C代表面向用户，B2B面向企业
 StartTime			int		开始时间戳	可选		
 EndTime				int		结束时间戳	可选		
 ```
@@ -894,8 +1034,56 @@ EndTime				int		结束时间戳	可选
   503： 服务端处理失败
   #errMsg
   503是返回错误信息，用于排错
+  # 样例1
+  #入参
+  {
+      "QueryType":"all"
+  }
+  # 出参
+  {
+      "code": 200,
+      "data": {
+          "一个测试活动1": {
+              "end_flag": false,  # 活动未结束
+              "groups": [
+                  {
+                      "group_name": "东方战神",
+                      "users": [
+                          "吕秀刚"
+                      ]
+                  }
+              ]
+          },
+          "一个测试活动2": {
+              "end_flag": true,  //后动已结束
+              "groups": null	   // 还没有分组，是一个空的活动
+          },
+          "修改时间戳类型测试活动": {
+              "end_flag": true,
+              "groups": null
+          }
+      }
+  }
+  
+  # 样例2
+  # 入参
+  {
+      "QueryType":"one",
+      "ActivityName":"修改时间戳类型测试活动"
+  }
+  # 出参
+  {
+      "code": 200,
+      "data": {
+          "修改时间戳类型测试活动": {
+              "end_flag": true,
+              "groups": null
+          }
+      }
+  }
+  
   ```
-
+  
   
 
 
