@@ -840,6 +840,66 @@ EndTime				int		结束时间戳	可选
 
 ##### 活动战队用户信息查询接口
 
+- **URL**
+
+  ```bash
+  /pd/admin/queryActivityGroupsUsers
+  ```
+
+  
+
+- **method**
+
+  ```
+  POST
+  ```
+
+  
+
+- **传参说明**
+
+  ```bash
+  # body json
+  QueryType	string	查询类型	必选
+  ActivityName	string	活动名称	可选
+  ```
+
+  解释
+
+  ```bash
+  #QueryType 参数可传递的值
+  all: 查询所有活动
+  one:查询一个活动的关联信息
+  #ActivityName
+  当QueryType=one时这个参数不能为空
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```bash
+  {
+  	"code": 200/400/503,
+  	"errMsg": "xxxx",
+  }
+  ```
+
+  解释
+
+  ```bash
+  # code
+  200: 正常返回值
+  400：传参错误
+  503： 服务端处理失败
+  #errMsg
+  503是返回错误信息，用于排错
+  ```
+
+  
+
+
+
 ---
 
 
