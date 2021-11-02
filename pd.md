@@ -267,12 +267,11 @@ POST
   	503： 接口调用失败
   # errMsg
   	当code返回503时，返回的一个错误信息
-  
   # 案例
   
   ```
-
   
+
 
 ---
 
@@ -545,6 +544,113 @@ company		string			公司名称				可选
 }
 
 ```
+
+---
+
+##### 分页用户账号信息查询接口
+
+- **URL**
+
+  ```bash
+  /pd/admin/pageQueryUsers
+  ```
+
+  
+
+- **method**
+
+  ```
+  POST
+  ```
+
+  
+
+- **传参说明**
+
+  ```bash
+  # body json
+  	page	int		当前页					 必须   
+  	step 	int		每页数据条数			   必须	
+  	Role string		角色名称				可选   // 不为空会根据role名称查询用户返回
+  	Company string	公司名称				可选   // 不为空会根据公司名称查询用户返回
+  ```
+
+  
+
+- **返回参数说明**
+
+```bash
+{
+    "code": "400/200/503",
+    "errMsg": "xxxx",
+    "data": array/map 		
+}
+```
+
+解释
+
+```
+#code:
+400: 传参不正确
+200：正常返回值
+503：服务不可用
+#errMsg
+503时返回错误信息 
+# 样例  查询所有用户
+#入参
+{
+    "page":2,
+    "step":3
+}
+#出参
+{
+    "code": 200,
+    "data": [
+        {
+            "Company": "江苏联通",
+            "CreateTime": 1634193449,
+            "Department": "产户",
+            "LoginTime": 1634281460,
+            "Openid": "",
+            "Phone": "0",
+            "Role": "generalUser",
+            "UserName": "test2",
+            "WPhone": "0",
+            "WxName": "",
+            "id": 2
+        },
+        {
+            "Company": "攀登",
+            "CreateTime": 1634193449,
+            "Department": "",
+            "LoginTime": 1635127102,
+            "Openid": "",
+            "Phone": "0",
+            "Role": "admin",
+            "UserName": "admin",
+            "WPhone": "0",
+            "WxName": "",
+            "id": 3
+        },
+        {
+            "Company": "江苏联通",
+            "CreateTime": 1635301913,
+            "Department": "产户",
+            "LoginTime": null,
+            "Openid": "",
+            "Phone": "18260087527",
+            "Role": "admin",
+            "UserName": "吕秀刚",
+            "WPhone": "",
+            "WxName": "",
+            "id": 4
+        }
+    ],
+    "total": 1
+}
+```
+
+
 
 ---
 
