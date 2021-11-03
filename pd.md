@@ -570,7 +570,8 @@ company		string			公司名称				可选
   ```bash
   # body json
   	page	int		当前页					 必须   
-  	step 	int		每页数据条数			   必须	
+  	step 	int		每页数据条数			   必须
+      UserName string	 用户名称				可选		
   	Role string		角色名称				可选   // 不为空会根据role名称查询用户返回
   	Company string	公司名称				可选   // 不为空会根据公司名称查询用户返回
   ```
