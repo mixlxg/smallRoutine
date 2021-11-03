@@ -1191,7 +1191,7 @@ http://127.0.0.1:8080/pd/admin/delActivity?ActivityName=一个测试活动
 - **URL**
 
   ```bash
-  /pd/admin/
+  /pd/admin/queryActivity
   ```
 
   
