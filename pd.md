@@ -327,6 +327,73 @@ captchaValue string		图形验证码输入框值		 		必传
 
 
 
+##### 公司查询列表接口
+
+- **URL**
+
+  ```
+  /pd/admin/getCompany
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **入参说明**
+
+  ```
+  无
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  {
+      // 返回格式json
+      "code":200/503,
+      "errMsg":"xxxx",   // 当返回503时返回错误信息
+  }
+  ```
+
+  解释
+
+  ```
+  #code:
+  200：正常返回值
+  503：服务不可用
+  #errMsg
+  503时返回错误信息 
+  #样例
+  #入参
+  http://127.0.0.1:8080/pd/admin/getCompany
+  #出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "Company": "攀登"
+          },
+          {
+              "Company": "江苏联通"
+          }
+      ]
+  }
+  ```
+
+  
+
+---
+
+
+
 ##### 管理后台用户登出接口
 
 - **URL**
@@ -721,6 +788,76 @@ Role			string		角色名称		必传
 
 ---
 
+##### 获取当前用户信息
+
+- **URL**
+
+  ```
+  /pd/admin/getCurrentUserMess
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  无
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  # 返回数据为json格式
+  {
+  	"code": 200/503,
+  	"errMsg": "xxxx",
+  }
+  ```
+
+  解释
+
+  ```
+  # code
+  200: 正常返回值
+  503： 服务端处理失败
+  #errMsg
+  503是返回错误信息，用于排错
+  # 样例
+  # 入参
+  http://127.0.0.1:8080/pd/admin/getCurrentUserMess
+  #出参
+  {
+      "code": 200,
+      "data": {
+          "Company": "攀登",
+          "CreateTime": 1634193449,
+          "Department": "",
+          "LoginTime": 1635127102,
+          "Openid": "",
+          "Phone": "0",
+          "UserName": "admin",
+          "WPhone": "0",
+          "WxName": "",
+          "id": 3,
+          "role": "admin"
+      }
+  }
+  ```
+
+  
+
+---
+
 
 
 ##### 用户更新接口
@@ -893,6 +1030,61 @@ EndTime				int		结束时间戳	必传
     "code": 200
 }
 ```
+
+---
+
+##### 添加，删除，修改活动审批人接口
+
+- **URL**
+
+  ```
+  /pd/admin/addApprover
+  ```
+
+  
+
+- **method**
+
+  ```
+  POST
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  # body  json
+  OpType		string			操作类型		必传 // 支持参数  add del update
+  ActivityName	string		活动名称		必传
+  Users		array			审批人列表		必传
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  {
+  	"code": 200/400/503,
+  	"errMsg": "xxxx",
+  }
+  ```
+
+  解释
+
+  ```
+  # code
+  200: 正常返回值
+  400：传参错误
+  503： 服务端处理失败
+  #errMsg
+  503是返回错误信息，用于排错
+  # 样例1
+  
+  ```
+
+  
 
 ---
 
