@@ -348,7 +348,8 @@ captchaValue string		图形验证码输入框值		 		必传
 - **入参说明**
 
   ```
-  无
+  # param query
+  Company 	string		公司名称		可选
   ```
 
   
@@ -371,7 +372,7 @@ captchaValue string		图形验证码输入框值		 		必传
   503：服务不可用
   #errMsg
   503时返回错误信息 
-  #样例
+  #样例1
   #入参
   http://127.0.0.1:8080/pd/admin/getCompany
   #出参
@@ -381,6 +382,18 @@ captchaValue string		图形验证码输入框值		 		必传
           {
               "Company": "攀登"
           },
+          {
+              "Company": "江苏联通"
+          }
+      ]
+  }
+  # 样例2
+  #入参
+  http://127.0.0.1:8080/pd/admin/getCompany?Company=江
+  #出参
+  {
+      "code": 200,
+      "data": [
           {
               "Company": "江苏联通"
           }
@@ -1080,8 +1093,39 @@ EndTime				int		结束时间戳	必传
   503： 服务端处理失败
   #errMsg
   503是返回错误信息，用于排错
-  # 样例1
-  
+  # 样例1 添加活动审批人
+  # 入参
+  {
+      "OpType":"add",
+      "ActivityName":"一个测试活动1",
+      "Users": ["test2","吕秀刚"]
+  }
+  #出参
+  {
+      "code": 200
+  }
+  # 样例2 删除审批人
+  # 入参
+  {
+      "OpType":"del",
+      "ActivityName":"一个测试活动1",
+      "Users": ["test2"]
+  }
+  # 出参
+  {
+      "code": 200
+  }
+  # 样例3 修改该更新审批人
+  # 入参
+  {
+      "OpType":"update",
+      "ActivityName":"一个测试活动1",
+      "Users": ["test2"]
+  }
+  #出参
+  {
+      "code": 200
+  }
   ```
 
   
@@ -1396,21 +1440,36 @@ EndTime				int		结束时间戳	可选
       "code": 200,
       "data": {
           "一个测试活动1": {
-              "end_flag": false,  # 活动未结束
+              "approver": [             // 活动审批人列表
+                  "test2"
+              ],
+              "end_flag": false,			// 活动进行中
               "groups": [
                   {
-                      "group_name": "东方战神",
+                      "group_leader": "",   // 队长
+                      "group_name": "西方战队",
                       "users": [
-                          "吕秀刚"
+                          {
+                              "Company": "江苏联通",
+                              "Department": "产户",
+                              "Openid": "",
+                              "Phone": "18260087527",
+                              "UserName": "吕秀刚",
+                              "WPhone": "",
+                              "WxName": "",
+                              "id": 4
+                          }
                       ]
                   }
               ]
           },
           "一个测试活动2": {
-              "end_flag": true,  //后动已结束
-              "groups": null	   // 还没有分组，是一个空的活动
+              "approver": [],
+              "end_flag": true,
+              "groups": null
           },
           "修改时间戳类型测试活动": {
+              "approver": [],
               "end_flag": true,
               "groups": null
           }
@@ -1428,6 +1487,7 @@ EndTime				int		结束时间戳	可选
       "code": 200,
       "data": {
           "修改时间戳类型测试活动": {
+              "approver": [],
               "end_flag": true,
               "groups": null
           }
