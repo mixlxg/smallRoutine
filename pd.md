@@ -223,12 +223,14 @@ POST
 
 ---
 
-##### 普通用户查询战队活动信息接口
+
+
+##### 小程序用户获取当前用户信息
 
 - **URL**
 
   ```
-  /pd/app/getGroupActivityMess
+  /pd/app/getUserMess
   ```
 
   
@@ -268,14 +270,279 @@ POST
   # errMsg
   	当code返回503时，返回的一个错误信息
   # 案例
-  
+  #入参
+  http://127.0.0.1:8080/pd/app/getUserMess
+  #出参
+  {
+      "code": 200,
+      "data": {
+          "Company": "攀登",
+          "CreateTime": 1634193449,
+          "Department": "",
+          "Role": "admin",
+          "UserName": "admin",
+          "id": 3
+      }
+  }
   ```
   
 
 
 ---
 
+##### 小程序用户获取活动-战队全量分页数据接口
 
+- **URL**
+
+  ```
+  /pd/app/getPageActivityMess
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  # query param
+  page  int 	当前页码	必传
+  step  int	每页显示数据条数	必传
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  # 返回格式json
+  {
+      	"code":	200/503	，	//必返
+  		"errMsg": "xxx"		//返回码503时返回
+  }
+  ```
+
+  解释：
+
+  ```
+  # code码状态：
+  	200： 登出成功
+  	503： 接口调用失败
+  # errMsg
+  	当code返回503时，返回的一个错误信息
+  # 案例
+  # admin角色用户查询
+  # 入参
+  http://127.0.0.1:8080/pd/app/getPageActivityMess?page=1&step=4
+  #出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityName": "一个测试活动1",
+              "Approver": [],
+              "EndTime": 1638113130,
+              "StartTime": 1635348330,
+              "groups": [
+                  {
+                      "GroupLeader": "吕秀刚",
+                      "GroupName": "西方战队",
+                      "users": [
+                          "admin",
+                          "吕秀刚"
+                      ]
+                  }
+              ],
+              "id": 2
+          },
+          {
+              "ActivityName": "这是我的update测试2",
+              "Approver": [],
+              "EndTime": 1635579983,
+              "StartTime": 1635493583,
+              "groups": [],
+              "id": 3
+          },
+          {
+              "ActivityName": "南京加油",
+              "Approver": [],
+              "EndTime": 1635579983,
+              "StartTime": 1635493583,
+              "groups": [],
+              "id": 4
+          }
+      ],
+      "total": 3
+  }
+  #样例2 普通用户查询自己活动信息
+  # 入参
+  http://127.0.0.1:8080/pd/app/getPageActivityMess?page=1&step=4
+  # 出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityName": "一个测试活动1",
+              "Approver": [],
+              "EndTime": 1638113130,
+              "StartTime": 1635348330,
+              "groups": [
+                  {
+                      "GroupLeader": "吕秀刚",
+                      "GroupName": "西方战队",
+                      "users": [
+                          "admin",
+                          "吕秀刚"
+                      ]
+                  }
+              ],
+              "id": 2
+          }
+      ],
+      "total": 1
+  }
+  ```
+
+  
+
+---
+
+##### 小程序用户获取活动-战队搜索栏数据接口
+
+- URL
+
+  ```
+  /pd/app/getSelectActivityList
+  ```
+
+- method
+
+  ```
+  GET
+  ```
+
+  
+
+- 传参说明
+
+  ```
+  # query param
+  ActivityId		int			活动id		 //可选
+  ```
+
+  
+
+- 返回参数说明
+
+  ```
+  # 返回格式json
+  {
+      	"code":	200/503	，	//必返
+  		"errMsg": "xxx"		//返回码503时返回
+  }
+  ```
+
+  解释：
+
+  ```
+  # code码状态：
+  	200： 登出成功
+  	503： 接口调用失败
+  # errMsg
+  	当code返回503时，返回的一个错误信息
+  # 案例
+  #入参当用户为admin角色时
+  # 入参
+  http://127.0.0.1:8080/pd/app/getSelectActivityList
+  # 出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityName": "一个测试活动1",
+              "activityId": 2,
+              "end_flag": false,
+              "groups": [
+                  {
+                      "GroupLeader": "吕秀刚",
+                      "GroupName": "西方战队",
+                      "groupId": 2
+                  }
+              ]
+          },
+          {
+              "ActivityName": "这是我的update测试2",
+              "activityId": 3,
+              "end_flag": true,
+              "groups": null
+          },
+          {
+              "ActivityName": "南京加油",
+              "activityId": 4,
+              "end_flag": true,
+              "groups": null
+          }
+      ]
+  }
+  # 样例2 admin角色用户带参数ActivityId
+  # 入参
+  http://127.0.0.1:8080/pd/app/getSelectActivityList?ActivityId=2
+  #出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityName": "一个测试活动1",
+              "activityId": 2,
+              "end_flag": false,
+              "groups": [
+                  {
+                      "GroupLeader": "吕秀刚",
+                      "GroupName": "西方战队",
+                      "groupId": 2
+                  }
+              ]
+          }
+      ]
+  }
+  #样例3 普通用户请求
+  #入参
+  http://127.0.0.1:8080/pd/app/getSelectActivityList
+  # 出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityName": "一个测试活动1",
+              "activityId": 2,
+              "end_flag": false,
+              "groups": [
+                  {
+                      "GroupLeader": "吕秀刚",
+                      "GroupName": "西方战队",
+                      "groupId": 2
+                  }
+              ]
+          }
+      ]
+  }
+  # 样例4 普通用户带ActivityId
+  #入参
+  http://127.0.0.1:8080/pd/app/getSelectActivityList?ActivityId=3
+  #出参
+  {
+      "code": 200,
+      "data": []  // 这个用户没有参加这个活动，所有返回空列表
+  }
+  ```
+
+  
 
 ##### 管理后台登录接口
 
@@ -852,17 +1119,17 @@ Role			string		角色名称		必传
   {
       "code": 200,
       "data": {
-          "Company": "攀登",
-          "CreateTime": 1634193449,
-          "Department": "",
-          "LoginTime": 1635127102,
-          "Openid": "",
-          "Phone": "0",
-          "UserName": "admin",
-          "WPhone": "0",
-          "WxName": "",
-          "id": 3,
-          "role": "admin"
+          "Company": "攀登",	   //公司
+          "CreateTime": 1634193449, //活动创建时间
+          "Department": "",			//部门
+          "LoginTime": 1635127102,	//用户登录时间
+          "Openid": "",				//openid
+          "Phone": "0",				// 用户导入时手机号码
+          "UserName": "admin",		//用户名
+          "WPhone": "0",				//微信注册号码
+          "WxName": "",				// 微信名
+          "id": 3,					//用户唯一id
+          "role": "admin"				// 角色名
       }
   }
   ```
@@ -1051,7 +1318,7 @@ EndTime				int		结束时间戳	必传
 - **URL**
 
   ```
-  /pd/admin/addApprover
+  /pd/admin/MdApprover
   ```
 
   
@@ -1636,6 +1903,95 @@ Users			array			用户名列表	必传
     "code": 400
 }
 ```
+
+---
+
+##### 设置，修改，删除战队队长接口
+
+- **URL**
+
+  ```
+  /pd/admin/setGroupLeader
+  ```
+
+  
+
+- **method**
+
+  ```
+  POST
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  # body json
+  	OpType	string		操作类型	必传		//可传参数 add,del,update
+  	GroupName	string		战队名称	必传
+  	ActivityName	string	活动名称	必传
+  	LeaderName string		队长名称	必传 //必须是当前战队人员
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  {
+  	"code": 200/400/503,
+  	"errMsg": "xxxx",
+  }
+  ```
+
+  解释
+
+  ```
+  # code
+  200: 正常返回值
+  400：传参错误
+  503： 服务端处理失败
+  #errMsg
+  503是返回错误信息，用于排错
+  # 样例1 添加战队队长
+  # 入参
+  {
+      "OpType":"add",
+      "ActivityName":"一个测试活动1",
+      "GroupName":"西方战队",
+      "LeaderName":"吕秀刚"
+  }
+  #出参
+  {
+      "code": 200
+  }
+  # 样例2 删除队长
+  {
+      "OpType":"del",
+      "ActivityName":"一个测试活动1",
+      "GroupName":"西方战队",
+      "LeaderName":"吕秀刚"
+  }
+  #出参
+  {
+      "code": 200
+  }
+  # 样例3 更换队长
+  #入参
+  {
+      "OpType":"update",
+      "ActivityName":"一个测试活动1",
+      "GroupName":"西方战队",
+      "LeaderName":"吕秀刚"
+  }
+  #出参
+  {
+      "code": 200
+  }
+  ```
+
+  
 
 ---
 
