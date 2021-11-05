@@ -1,6 +1,7 @@
 package views
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -8,10 +9,13 @@ import (
 	"github.com/mojocn/base64Captcha"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+	"math"
 	"net/http"
 	"smallRoutine/config"
 	"smallRoutine/model"
 	"smallRoutine/utils"
+	"strconv"
 	"time"
 )
 
@@ -254,5 +258,325 @@ func ModifyPwd(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc{
 				return
 			}
 		}
+	}
+}
+
+func GetUserMess(logger *logrus.Logger, gdb *gorm.DB)gin.HandlerFunc  {
+	return func(c *gin.Context) {
+		// 获取session
+		session := sessions.Default(c)
+		username := session.Get("username").(string)
+		var user = model.User{UserName: username}
+		if err:=gdb.Where(user).Preload("Role").First(&user).Error;err !=nil{
+			logger.Errorf("用户：%s 查询战队活动信息失败，错误信息：%s",username,err.Error())
+			c.JSON(http.StatusOK,gin.H{
+				"code":http.StatusServiceUnavailable,
+				"errMsg": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK,gin.H{
+			"code":http.StatusOK,
+			"data": map[string]interface{}{
+				"id": user.ID,
+				"UserName":user.UserName,
+				"Company":user.Company,
+				"Department":user.Department,
+				"CreateTime": utils.TimeToStamp(user.CreateTime),
+				"Role": user.Role.RoleName,
+			},
+		})
+		return
+	}
+}
+
+func GetSelectActivityList(logger *logrus.Logger,gdb *gorm.DB)gin.HandlerFunc  {
+	return func(c *gin.Context) {
+		// 获取session
+		session := sessions.Default(c)
+		username := session.Get("username").(string)
+		var err error
+		var user = model.User{UserName: username}
+		if err:=gdb.Where(user).Preload("Role").First(&user).Error;err !=nil{
+			logger.Errorf("用户：%s 查询战队活动信息失败，错误信息：%s",username,err.Error())
+			c.JSON(http.StatusOK,gin.H{
+				"code":http.StatusServiceUnavailable,
+				"errMsg": err.Error(),
+			})
+			return
+		}
+		activityId := c.Query("ActivityId")
+		var acId uint64
+		if activityId == ""{
+			acId = 0
+		}else {
+			id,err := strconv.Atoi(activityId)
+			if err !=nil{
+				logger.Errorf("activitid:%s是一个不正确的传参，错误信息：%s",activityId,err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusBadRequest,
+				})
+				return
+			}
+			acId = uint64(id)
+		}
+		// 判断用户权限
+
+		var data = make([]interface{},0)
+		if user.Role.RoleName == "admin"{
+			var activities [] model.Activity
+			err = gdb.Where(model.Activity{ID: acId}).Order("end_time desc").Preload("Groups").Find(&activities).Error
+			if err !=nil{
+				logger.Errorf("用户：%s,查询数据库失败，错误信息：%s",username,err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg":err.Error(),
+				})
+				return
+			}
+			//格式化数据
+			for _,activity := range activities{
+				ac := make(map[string]interface{})
+				ac["activityId"]=activity.ID
+				if activity.ActivityContent ==""{
+					ac["ActivityName"] = activity.ActivityName
+				}else {
+					ac["ActivityName"]=activity.ActivityContent
+				}
+				if activity.EndTime.Unix() > time.Now().Unix(){
+					ac["end_flag"] = false
+				}else {
+					ac["end_flag"] = true
+				}
+				var groups []map[string]interface{}
+				for _,group := range activity.Groups{
+					groups = append(groups, map[string]interface{}{
+						"groupId": group.ID,
+						"GroupName":group.GroupName,
+						"GroupLeader":group.GroupLeader,
+					})
+				}
+				ac["groups"] = groups
+				data = append(data,ac)
+			}
+		}else {
+			err = gdb.Model(&user).Preload("Groups.Activity").Preload(clause.Associations).Find(&user).Error
+			if err !=nil{
+				logger.Errorf("用户：%s,查询数据报错，错信息：%s",username,err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg":err.Error(),
+				})
+				return
+			}
+			// 格式化数据
+			if acId == 0{
+				// 返回所有的活动和战队数据
+				for _,group := range user.Groups{
+					ac := make(map[string]interface{})
+					ac["activityId"]=group.Activity.ID
+					if group.Activity.ActivityContent ==""{
+						ac["ActivityName"] = group.Activity.ActivityName
+					}else {
+						ac["ActivityName"]=group.Activity.ActivityContent
+					}
+					if group.Activity.EndTime.Unix() > time.Now().Unix(){
+						ac["end_flag"] = false
+					}else {
+						ac["end_flag"] = true
+					}
+					var groups []map[string]interface{}
+					groups = append(groups, map[string]interface{}{
+						"groupId": group.ID,
+						"GroupName":group.GroupName,
+						"GroupLeader":group.GroupLeader,
+					})
+					ac["groups"] = groups
+					data = append(data,ac)
+				}
+			}else {
+				for _,group := range user.Groups{
+					if group.Activity.ID == acId{
+						ac := make(map[string]interface{})
+						ac["activityId"]=group.Activity.ID
+						if group.Activity.ActivityContent ==""{
+							ac["ActivityName"] = group.Activity.ActivityName
+						}else {
+							ac["ActivityName"]=group.Activity.ActivityContent
+						}
+						if group.Activity.EndTime.Unix() > time.Now().Unix(){
+							ac["end_flag"] = false
+						}else {
+							ac["end_flag"] = true
+						}
+						var groups []map[string]interface{}
+						groups = append(groups, map[string]interface{}{
+							"groupId": group.ID,
+							"GroupName":group.GroupName,
+							"GroupLeader":group.GroupLeader,
+						})
+						ac["groups"] = groups
+						data = append(data,ac)
+					}
+				}
+			}
+		}
+		c.JSON(http.StatusOK,gin.H{
+			"code":http.StatusOK,
+			"data": data,
+		})
+	}
+}
+
+func GetPageActivityMess(logger *logrus.Logger, gdb *gorm.DB)gin.HandlerFunc  {
+	return func(c *gin.Context) {
+		// 获取session
+		session := sessions.Default(c)
+		username := session.Get("username").(string)
+		var err error
+		var user = model.User{UserName: username}
+		if err:=gdb.Where(user).Preload("Role").Preload("Groups.Activity").Preload("Groups.Users").Preload(clause.Associations).First(&user).Error;err !=nil{
+			logger.Errorf("用户：%s 查询战队活动信息失败，错误信息：%s",username,err.Error())
+			c.JSON(http.StatusOK,gin.H{
+				"code":http.StatusServiceUnavailable,
+				"errMsg": err.Error(),
+			})
+			return
+		}
+		var param model.GetPageActivityMess
+		if err:=c.ShouldBindQuery(&param);err !=nil{
+			logger.Errorf("获取前端传递参数报错，错误信息：%s",err.Error())
+			c.JSON(http.StatusOK,gin.H{
+				"code": http.StatusBadRequest,
+			})
+			return
+		}
+		var activities []*model.Activity
+		var total int64
+		// 获取用户一共有多少数据
+		if user.Role.RoleName == "admin"{
+			err = gdb.Model(&model.Activity{}).Count(&total).Error
+			if err !=nil{
+				logger.Errorf("param:%#v,获取页码总数失败，错误信息：%s",param,err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}else {
+			total = int64(len(user.Groups))
+		}
+		// 总页码
+		var totalPage int64
+		var data = make([]interface{},0)
+		switch total{
+		case 0:
+			totalPage = 1
+		default:
+			totalPage = int64(math.Ceil(float64(total)/float64(param.Size)))
+		}
+		if param.CurrentPage > totalPage{
+			param.CurrentPage = totalPage
+		}
+		if param.CurrentPage <= 1{
+			param.CurrentPage=1
+		}
+		if user.Role.RoleName == "admin"{
+			err = gdb.Model(&model.Activity{}).Offset(int((param.CurrentPage-1)*param.Size)).Limit(int(param.Size)).Order("end_time desc").Preload("Groups.Users").Preload(clause.Associations).Find(&activities).Error
+			if err !=nil{
+				logger.Errorf("查询活动信息报错，错误信息：%s",err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+			// 格式化返回的数据
+			for _,activity := range activities{
+				ac := make(map[string]interface{})
+				ac["id"] = activity.ID
+				if activity.ActivityContent == ""{
+					ac["ActivityName"] = activity.ActivityName
+				}else {
+					ac["ActivityName"] = activity.ActivityContent
+				}
+				if activity.Approver == ""{
+					ac["Approver"] = []string{}
+				}else {
+					// 反序列化出来审批人信息
+					err = json.Unmarshal([]byte(activity.Approver),ac["Approver"])
+					if err !=nil{
+						ac["Approver"] = []string{}
+					}
+				}
+				ac["StartTime"] = utils.TimeToStamp(activity.StartTime)
+				ac["EndTime"] = utils.TimeToStamp(activity.EndTime)
+				groups := make([]map[string]interface{},0)
+				for _,g :=range activity.Groups{
+					var us []string
+					for _,u := range g.Users{
+						us= append(us,u.UserName)
+					}
+					groups = append(groups, map[string]interface{}{
+						"GroupName":g.GroupName,
+						"GroupLeader":g.GroupLeader,
+						"users":us,
+					})
+				}
+				ac["groups"] = groups
+				data = append(data,ac)
+			}
+		}else {
+			var tmp = make([]interface{},0)
+			// 格式化返回的数据
+			for _,gr := range user.Groups{
+				ac := make(map[string]interface{})
+				ac["id"] = gr.Activity.ID
+				if gr.Activity.ActivityContent == ""{
+					ac["ActivityName"] = gr.Activity.ActivityName
+				}else {
+					ac["ActivityName"] = gr.Activity.ActivityContent
+				}
+				if gr.Activity.Approver == ""{
+					ac["Approver"] = []string{}
+				}else {
+					// 反序列化出来审批人信息
+					err = json.Unmarshal([]byte(gr.Activity.Approver),ac["Approver"])
+					if err !=nil{
+						ac["Approver"] = []string{}
+					}
+				}
+				ac["StartTime"] = utils.TimeToStamp(gr.Activity.StartTime)
+				ac["EndTime"] = utils.TimeToStamp(gr.Activity.EndTime)
+				groups := make([]map[string]interface{},0)
+				var us []string
+				for _,u := range gr.Users{
+					us= append(us,u.UserName)
+				}
+				groups = append(groups, map[string]interface{}{
+					"GroupName":gr.GroupName,
+					"GroupLeader":gr.GroupLeader,
+					"users":us,
+				})
+				ac["groups"] = groups
+				tmp = append(tmp,ac)
+				//开始分页
+				offset := (param.CurrentPage -1)*param.Size
+				if param.CurrentPage == totalPage{
+					data = tmp[offset:]
+				}else {
+					data = tmp[offset:param.Size]
+				}
+
+			}
+
+		}
+		c.JSON(http.StatusOK,gin.H{
+			"code": http.StatusOK,
+			"data": data,
+			"total": total,
+		})
+		return
 	}
 }

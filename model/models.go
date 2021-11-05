@@ -16,8 +16,10 @@ type Activity struct {
 	EndTime:活动结束时间
 	*/
 	ID uint64
-	ActivityName string			`gorm:"type:varchar(256) not null"`
+	ActivityName string			`gorm:"type:varchar(256) not null;unique"`
 	ActivityContent string		`gorm:"type:varchar(256)"`
+	Approver string				`gorm:"type:varchar(256)"`
+	ActivityType string			`gorm:"type:varchar(100)"`
 	CreateTime *time.Time		`gorm:"autoCreateTime"`
 	StartTime *time.Time
 	EndTime	*time.Time
@@ -34,6 +36,7 @@ type Group struct {
 	*/
 	ID uint64
 	GroupName string			`gorm:"type:varchar(256) not null"`
+	GroupLeader string			`gorm:"type:varchar(100)"`
 	CreateTime *time.Time		`gorm:"autoCreateTime"`
 	ActivityID	uint64
 	Activity	Activity

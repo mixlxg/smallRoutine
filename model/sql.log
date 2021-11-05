@@ -32,3 +32,47 @@
 [5.991ms] [rows:1] UPDATE `users` SET `login_time`='2021-10-14 17:29:43.614' WHERE `id` = 1
 2021/10/27 16:08:50 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:32
 [50.079ms] [rows:1] SELECT * FROM `users` WHERE `users`.`user_name` = 'test2' ORDER BY `users`.`id` LIMIT 1
+2021/10/29 17:03:46 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[3.714ms] [rows:1] SELECT * FROM `users_groups` WHERE `users_groups`.`group_id` = 2
+2021/10/29 17:03:46 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[2.116ms] [rows:1] SELECT * FROM `users` WHERE `users`.`id` = 4
+2021/10/29 17:03:46 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[11.373ms] [rows:1] SELECT * FROM `groups` WHERE `groups`.`activity_id` IN (2,3,4)
+2021/10/29 17:03:46 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[48.589ms] [rows:3] SELECT * FROM `activities`
+2021/10/29 17:06:09 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[2.836ms] [rows:1] SELECT * FROM `users_groups` WHERE `users_groups`.`group_id` = 2
+2021/10/29 17:06:09 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[2.709ms] [rows:1] SELECT * FROM `users` WHERE `users`.`id` = 4
+2021/10/29 17:06:09 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[11.017ms] [rows:1] SELECT * FROM `groups` WHERE `groups`.`activity_id` IN (2,3,4)
+2021/10/29 17:06:09 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[51.481ms] [rows:3] SELECT * FROM `activities`
+2021/11/02 15:16:33 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[48.996ms] [rows:3] SELECT * FROM `users`
+2021/11/02 15:22:16 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:154: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30 Error 1054: Unknown column 'role.id' in 'on clause'
+[24.820ms] [rows:0] SELECT `users`.`id`,`users`.`openid`,`users`.`user_name`,`users`.`password`,`users`.`w_phone`,`users`.`phone`,`users`.`wx_name`,`users`.`company`,`users`.`department`,`users`.`create_time`,`users`.`login_time`,`users`.`role_id` FROM `users` inner join roles on role.id = users.role_id and role.role_name = 'admin'
+2021/11/02 15:24:25 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[70.187ms] [rows:2] SELECT `users`.`id`,`users`.`openid`,`users`.`user_name`,`users`.`password`,`users`.`w_phone`,`users`.`phone`,`users`.`wx_name`,`users`.`company`,`users`.`department`,`users`.`create_time`,`users`.`login_time`,`users`.`role_id` FROM `users` inner join roles on roles.id = users.role_id and roles.role_name = 'admin'
+2021/11/02 16:41:24 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[41.196ms] [rows:2] SELECT `users`.`id`,`users`.`openid`,`users`.`user_name`,`users`.`password`,`users`.`w_phone`,`users`.`phone`,`users`.`wx_name`,`users`.`company`,`users`.`department`,`users`.`create_time`,`users`.`login_time`,`users`.`role_id` FROM `users` inner join roles on roles.id = users.role_id and roles.role_name = 'admin'
+2021/11/02 16:42:07 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[13.473ms] [rows:1] SELECT * FROM `roles` WHERE `roles`.`id` = 1
+2021/11/02 16:42:07 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[51.728ms] [rows:2] SELECT `users`.`id`,`users`.`openid`,`users`.`user_name`,`users`.`password`,`users`.`w_phone`,`users`.`phone`,`users`.`wx_name`,`users`.`company`,`users`.`department`,`users`.`create_time`,`users`.`login_time`,`users`.`role_id` FROM `users` inner join roles on roles.id = users.role_id and roles.role_name = 'admin'
+2021/11/02 17:14:25 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[2.590ms] [rows:1] SELECT * FROM `roles` WHERE `roles`.`id` = 1
+2021/11/02 17:14:25 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[41.500ms] [rows:1] SELECT * FROM `users` LIMIT 1 OFFSET 2
+2021/11/02 17:14:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[2.061ms] [rows:1] SELECT * FROM `roles` WHERE `roles`.`id` = 1
+2021/11/02 17:14:54 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[37.452ms] [rows:1] SELECT * FROM `users` LIMIT 1 OFFSET 2
+2021/11/02 17:16:08 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[2.546ms] [rows:1] SELECT * FROM `roles` WHERE `roles`.`id` = 1
+2021/11/02 17:16:08 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:30
+[43.913ms] [rows:1] SELECT * FROM `users` LIMIT 3 OFFSET 2
+2021/11/03 09:46:48 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:33
+[7.689ms] [rows:2] SELECT Company,Department FROM `users` GROUP BY Company,Department
+2021/11/03 09:49:03 D:/go/pkg/mod/gorm.io/gorm@v1.21.12/logger/logger.go:169: D:/mixlxgWifeErp/weixin/smallRoutine/model/gorm_test.go:33
+[6.072ms] [rows:2] SELECT `company` FROM `users` GROUP BY `Company`

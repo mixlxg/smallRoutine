@@ -11,6 +11,7 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 	"gorm.io/gorm"
 	"io"
+	"net/http"
 	"os"
 	"path"
 	"path/filepath"
@@ -19,7 +20,7 @@ import (
 	"smallRoutine/views"
 )
 
-func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB, store redis.Store,cstore base64Captcha.Store, wsdk *weapp.Client) (err error)  {
+func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB, store redis.Store,cstore base64Captcha.Store, wsdk *weapp.Client,basePath string) (err error)  {
 	//初始化gin配置
 	// 关闭gin日志着色配置
 	gin.DisableConsoleColor()
@@ -56,6 +57,8 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB, store r
 	}))
 	// 添加接口奔溃恢复中间件
 	router.Use(gin.Recovery())
+	// 配置静态资源
+	router.StaticFS(path.Join(config.Http.BaseContext,"statics"),http.Dir(filepath.Join(basePath,config.Http.Static)))
 	// 初始化session 中间件
 	router.Use(sessions.Sessions(config.Session.SessionId,store))
 	// 获取图形验证码的接口
@@ -69,7 +72,11 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB, store r
 	{
 		// 用户退出接口
 		gr.POST("/logout", views.Logout(logger))
-
+		gr.GET("/getUserMess",views.GetUserMess(logger,gdb))
+		gr.GET("/getSelectActivityList",views.GetSelectActivityList(logger,gdb))
+		gr.GET("/getPageActivityMess",views.GetPageActivityMess(logger,gdb))
+		gr.POST("/upload",views.UpLoad(logger))
+		//gr.POST("/createOrder",views.CreateOrder(logger,gdb))
 
 	}
 	// 管理后台接口
@@ -77,18 +84,26 @@ func NewRouter(config *config.Config,logger *logrus.Logger,gdb *gorm.DB, store r
 	agr := router.Group(path.Join(config.Http.BaseContext,"/admin"),middleware.AdminSessions())
 	{
 		agr.POST("/logout",views.AdminLogout(logger))
+		agr.GET("/getCompany",views.GetCompany(logger,gdb))
 		agr.POST("/queryUser", views.QueryUser(logger,gdb))
+		agr.POST("/pageQueryUsers",views.PageQueryUser(logger,gdb))
 		agr.POST("/createUser",views.CreateUser(logger,gdb))
+		agr.GET("/getCurrentUserMess",views.GetCurrentUserMess(logger,gdb))
 		agr.POST("/updateUser",views.UpdateUser(logger,gdb))
 		agr.GET("/delUser",views.DelUser(logger,gdb))
 		agr.POST("/createActivity",views.CreateActivity(logger,gdb))
-		agr.GET("/queryActivity",views.QueryActivity(logger,gdb) )
+		agr.POST("/MdApprover",views.MdApprover(logger,gdb))
+		agr.GET("/queryActivity",views.QueryActivityMess(logger,gdb))
 		agr.GET("/delActivity",views.DelActivity(logger,gdb))
 		agr.POST("/updateActivity",views.UpdateActivity(logger,gdb))
-		agr.POST("createGroup",views.CreateGroup(logger,gdb))
-		agr.POST("addUsersToGroup",views.AddUsersToGroup(logger,gdb))
+		agr.POST("/createGroup",views.CreateGroup(logger,gdb))
+		agr.POST("/addUsersToGroup",views.AddUsersToGroup(logger,gdb))
 		agr.POST("/delUserFromGroup",views.DelUserFromGroup(logger,gdb))
-		agr.POST("delGroup",views.DelGroup(logger,gdb))
+		agr.POST("/delGroup",views.DelGroup(logger,gdb))
+		agr.POST("/modifyGroup",views.GroupModify(logger,gdb))
+		agr.POST("/setGroupLeader",views.SetGroupLeader(logger,gdb))
+		agr.POST("/queryActivityGroupsUsers",views.QueryActivity(logger,gdb))
+
 	}
 	//绑定地址端口启动服务
 	err = router.Run(fmt.Sprintf("%s:%d",config.Http.Host,config.Http.Port))

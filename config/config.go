@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+
 // mysql配置设计到的字段结构体
 type MysqlConfig struct {
 	MysqlUrl	string				`yaml:"url"`
@@ -24,6 +25,7 @@ type HttpConfig struct {
 	Port		int64				`yaml:"port"`
 	BaseContext	string				`yaml:"context"`
 	CaptchaTimeout time.Duration 	`yaml:"captchatimeout"`
+	Static string					`yaml:"static"`
 }
 // zap 日志参数
 type LogrusConfig struct {

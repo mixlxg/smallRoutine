@@ -11,6 +11,7 @@ http:
   port: 8080
   context: '/pd'
   captchatimeout: 180
+  static: 'statics'
 logrus:
   logpath: ''
   applogname: 'app.log'

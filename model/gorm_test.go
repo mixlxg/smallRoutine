@@ -26,11 +26,34 @@ func TestGorm(t *testing.T)  {
 		t.Errorf("初始化数据库%v报错，错误信息:%v",config.Mysql.MysqlUrl,err)
 	}
 	t.Logf("初始化数据库%v成功",gdb)
-	user := User{
-		UserName:   "test2",
-	}
-	err = gdb.Where(&user).First(&user).Error
-	fmt.Println(user.LoginTime)
+	s:=[]int{1,2,3,4,5,6,7,8,9}
+	fmt.Printf("%#v",s[0:2])
+	//s:="[]"
+	//var user []string
+	//err = json.Unmarshal([]byte(s),&user)
+	//if err !=nil{
+	//	t.Log(err.Error())
+	//}else {
+	//	t.Logf("%#v",s)
+	//}
+
+	//var company []struct{
+	//	Company string
+	//	Department string
+	//}
+	//gdb.Model(&User{}).Select("Company").Group("Company").Find(&company)
+	//fmt.Printf("%#v",company)
+	//var users []*User
+	//gdb.Offset(2).Limit(3).Preload("Role").Find(&users)
+	//for _,user := range users{
+	//	fmt.Println(user.UserName,user.Role.RoleName)
+	//}
+	//var activities []*Activity
+	//if err :=gdb.Preload("Groups.Users").Find(&activities).Error;err !=nil{
+	//	t.Logf("查询数据库报错，错误信息：%s",err.Error())
+	//}
+	//fmt.Printf("%#v",activities)
+
 	//if errors.Is(err,gorm.ErrRecordNotFound){
 	//	t.Log("user不存在")
 	//}

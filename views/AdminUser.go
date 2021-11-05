@@ -2,11 +2,13 @@ package views
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"math"
 	"net/http"
 	"smallRoutine/config"
 	"smallRoutine/model"
@@ -238,6 +240,42 @@ func QueryUser(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc  {
 			})
 			return
 		}
+		// 根据公司信息查询用户
+		if param.QueryType == "detail_user_by_company"{
+			var users []*model.User
+			if param.Company == ""{
+				if err:= gdb.Find(&users).Error;err !=nil{
+					logger.Errorf("查询用户信息失败，错误信息：%s",err.Error())
+					c.JSON(http.StatusOK,gin.H{
+						"code": http.StatusServiceUnavailable,
+						"errMsg": err.Error(),
+					})
+					return
+				}
+			}else {
+				if err:= gdb.Where("company=?",param.Company).Find(&users).Error;err !=nil{
+					logger.Errorf("根据公司：%s 信息查询用户信息失败，错误信息：%s",param.Company,err.Error())
+					c.JSON(http.StatusOK,gin.H{
+						"code": http.StatusServiceUnavailable,
+						"errMsg": err.Error(),
+					})
+					return
+				}
+			}
+			data := make(map[string][]string)
+			for _,user := range users{
+				if _,ok := data[user.Company];ok{
+					data[user.Company] = append(data[user.Company],user.UserName)
+				}else {
+					data[user.Company] =[]string{user.UserName}
+				}
+			}
+			c.JSON(http.StatusOK,gin.H{
+				"code": http.StatusOK,
+				"data": data,
+			})
+			return
+		}
 		// 如果不是这五种类型查询返回错误
 		c.JSON(http.StatusOK,gin.H{
 			"code": http.StatusBadRequest,
@@ -274,7 +312,7 @@ func CreateUser(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc  {
 				return
 			}
 		}
-		// 创建用户，构造一个用户结构体用于创建用户
+		// 判断用户名是否存在
 		var user model.User = model.User{
 			UserName: param.UserName,
 			Password: utils.MyMd5(param.Password),
@@ -283,6 +321,26 @@ func CreateUser(logger *logrus.Logger,gdb *gorm.DB) gin.HandlerFunc  {
 			Department: param.Department,
 			RoleID: role.ID,
 		}
+		if err := gdb.Model(model.User{}).Where(model.User{UserName: param.UserName}).First(&user).Error;err !=nil{
+			if errors.Is(err,gorm.ErrRecordNotFound){
+				logger.Errorf("用户：%s 不存在可以新建",param.UserName)
+			}else {
+				logger.Errorf("查询用户：%s 信息失败，错误信息：%s",param.UserName,err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}else {
+			logger.Errorf("用户名：%s 已经存在，请换一个用户名",param.UserName)
+			c.JSON(http.StatusOK,gin.H{
+				"code": 700,
+			})
+			return
+		}
+		// 创建用户，构造一个用户结构体用于创建用户
+
 		if err:= gdb.Create(&user).Error;err !=nil{
 			logger.Errorf("param:%v,创建用户失败，错误信息：%s",param,err.Error())
 			c.JSON(http.StatusOK,gin.H{
@@ -428,6 +486,185 @@ func DelUser(logger *logrus.Logger,gdb *gorm.DB)gin.HandlerFunc  {
 		}
 		c.JSON(http.StatusOK,gin.H{
 			"code": http.StatusOK,
+		})
+		return
+	}
+}
+
+func PageQueryUser(logger *logrus.Logger,gdb *gorm.DB)gin.HandlerFunc  {
+	return func(c *gin.Context) {
+		var param model.PageQueryUsers
+		if err := c.ShouldBindJSON(&param);err !=nil{
+			logger.Errorf("前端传递参数哦不正确，错误信息：%s",err.Error())
+			c.JSON(http.StatusOK,gin.H{
+				"code": http.StatusBadRequest,
+			})
+			return
+		}
+		// 查询用户
+		var users []*model.User
+		var count int64
+		if param.Role != ""{
+			err := gdb.Model(model.User{}).Joins("inner join roles on roles.id = users.role_id and roles.role_name = ?",param.Role).Where(model.User{Company: param.Company,UserName: param.UserName}).Count(&count).Error
+			if err !=nil{
+				logger.Errorf("查询分页用户数据失败，错误信息：%s",err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}else {
+			err := gdb.Model(model.User{}).Where(model.User{Company: param.Company,UserName: param.UserName}).Count(&count).Error
+			if err !=nil{
+				logger.Errorf("查询分页用户数据失败，错误信息：%s",err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}
+		if count <= 0{
+			logger.Infof("查询分页数据为空")
+			c.JSON(http.StatusOK,gin.H{
+				"code": http.StatusOK,
+				"total":0,
+				"data":[]interface{}{},
+			})
+			return
+		}
+		var pageTotal int64 = 0
+		if count <= param.PageNum{
+			pageTotal = 1
+		}else {
+			pageTotal = int64(math.Ceil(float64(count)/float64(param.PageNum)))
+		}
+		if param.CurrentPage >= pageTotal{
+			param.CurrentPage = pageTotal
+		}
+		offset := (param.CurrentPage - 1)*param.PageNum
+		if param.Role != ""{
+			err := gdb.Model(model.User{}).Joins("inner join roles on roles.id = users.role_id and roles.role_name = ?",param.Role).Where(model.User{Company: param.Company,UserName: param.UserName}).Offset(int(offset)).Limit(int(param.PageNum)).Preload("Role").Find(&users).Error
+			if err !=nil{
+				logger.Errorf("查询分页用户数据失败，错误信息：%s",err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}else {
+			err := gdb.Where(model.User{Company: param.Company,UserName: param.UserName}).Offset(int(offset)).Limit(int(param.PageNum)).Preload("Role").Find(&users).Error
+			if err !=nil{
+				logger.Errorf("查询分页用户数据失败，错误信息：%s",err.Error())
+				c.JSON(http.StatusOK,gin.H{
+					"code": http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}
+		var data []interface{}
+		for _,user := range users{
+			var LoginTime interface{}
+			if user.LoginTime == nil{
+				LoginTime = nil
+			}else {
+				LoginTime = utils.TimeToStamp(user.LoginTime)
+			}
+			data = append(data, map[string]interface{}{
+				"id":user.ID,
+				"Openid":user.Openid,
+				"UserName":user.UserName,
+				"WPhone": user.WPhone,
+				"Phone": user.Phone,
+				"WxName":user.WxName,
+				"Company":user.Company,
+				"Department":user.Department,
+				"CreateTime":utils.TimeToStamp(user.CreateTime),
+				"LoginTime":LoginTime,
+				"Role":user.Role.RoleName,
+			})
+		}
+		c.JSON(http.StatusOK,gin.H{
+			"code": http.StatusOK,
+			"data": data,
+			"total":count,
+		})
+		return
+	}
+}
+
+func GetCompany(logger *logrus.Logger,gdb *gorm.DB)gin.HandlerFunc  {
+	return func(c *gin.Context) {
+		comp := c.Query("Company")
+		var company []struct{
+			Company string
+		}
+		if comp == ""{
+			if err :=gdb.Model(&model.User{}).Select("Company").Group("Company").Find(&company).Error;err !=nil{
+				logger.Errorf("获取公司部门列表失败，错误信息：%s",err.Error)
+				c.JSON(http.StatusOK,gin.H{
+					"code":http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}else {
+			if err :=gdb.Model(&model.User{}).Select("Company").Where("company like ?",fmt.Sprintf("%%%v%%",comp)).Group("Company").Find(&company).Error;err !=nil{
+				logger.Errorf("获取公司部门列表失败，错误信息：%s",err.Error)
+				c.JSON(http.StatusOK,gin.H{
+					"code":http.StatusServiceUnavailable,
+					"errMsg": err.Error(),
+				})
+				return
+			}
+		}
+
+		c.JSON(http.StatusOK,gin.H{
+			"code": http.StatusOK,
+			"data":company,
+		})
+		return
+	}
+}
+
+func GetCurrentUserMess(logger *logrus.Logger,gdb *gorm.DB)gin.HandlerFunc  {
+	return func(c *gin.Context) {
+		// 获取session
+		s := sessions.Default(c)
+		username := s.Get("username")
+		var user model.User
+		if err:= gdb.Where(model.User{UserName: username.(string)}).Preload("Role").Find(&user).Error;err !=nil{
+			logger.Errorf("获取用户：%s 信息失败，错误信息：%s",username,err.Error())
+			c.JSON(http.StatusOK,gin.H{
+				"code": http.StatusServiceUnavailable,
+				"errMsg": err.Error(),
+			})
+			return
+		}
+		var LoginTime interface{}
+		if user.LoginTime == nil{
+			LoginTime = nil
+		}else {
+			LoginTime = utils.TimeToStamp(user.LoginTime)
+		}
+		c.JSON(http.StatusOK,gin.H{
+			"code": http.StatusOK,
+			"data": map[string]interface{}{
+				"id": user.ID,
+				"UserName":user.UserName,
+				"Openid":user.Openid,
+				"WPhone":user.WPhone,
+				"Phone": user.Phone,
+				"WxName":user.WxName,
+				"Company":user.Company,
+				"Department":user.Department,
+				"CreateTime":utils.TimeToStamp(user.CreateTime),
+				"LoginTime":LoginTime,
+				"role": user.Role.RoleName,
+			},
 		})
 		return
 	}
