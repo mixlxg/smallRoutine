@@ -1,8 +1,14 @@
-#### 接口文档
+接口文档
 
 
 
 [toc]
+
+---
+
+
+
+#### 全局接口
 
 ---
 
@@ -22,12 +28,60 @@
 
 
 
+##### 修改密码接口
+
+- **URL**
+
+```
+/pd/app/modifyPwd
+```
+
+- **method**
+
+```
+POST
+```
+
+- **传参说明**
+
+```bash
+# 包体传值，application/json
+	username	string		用户名			 必传
+	oldpwd		string		原始密码		必传
+	newpwd		string		新密码			 必传
+	wphone		int			手机号码		可选 		#如果用户不同意授权，也让用户修改密码
+```
+
+- **返回值**
+
+```bash
+// 返回json格式数据
+{
+    "code": "200/401/400/503",
+    "errMsg": "xxx" 
+}
+```
+
+解释：
+
+```bash
+# code 返回码
+200： 修改密码成功
+401：使用原始密码认证失败
+400：非法传参
+503：调用接口失败
+```
+
+---
+
+
+
 ##### 获取图形验证码接口
 
 - ***URL地址：***
 
 ```bash
-/pd//getCaptcha
+/pd/getCaptcha
 ```
 
 - **method**
@@ -72,6 +126,10 @@ base64 加密的验证码图片数据
 #errMsg
 错误信息
 ```
+
+---
+
+#### 小程序接口
 
 ---
 
@@ -175,51 +233,154 @@ POST
 
 ---
 
-
-
-##### 修改密码接口
+##### 小程序文件上传接口
 
 - **URL**
 
-```
-/pd/app/modifyPwd
-```
+  ```
+  /pd/app/upload
+  ```
+
+  
 
 - **method**
 
-```
-POST
-```
+  ```
+  POST
+  ```
+
+  
 
 - **传参说明**
 
-```bash
-# 包体传值，application/json
-	username	string		用户名			 必传
-	oldpwd		string		原始密码		必传
-	newpwd		string		新密码			 必传
-	wphone		int			手机号码		可选 		#如果用户不同意授权，也让用户修改密码
+  ```
+  #form-data
+  FileKey  string 	上传文件类型	必传		// 这个filekey传值等于上传文件的key，用于后端获取文件使用
+  ActivityName  string	活动名称	必传
+  ```
+
+- **返回参数说明**
+
+  ```
+  # 返回格式json
+  {
+      	"code":	200/503/400	，	//必返
+  		"errMsg": "xxx"		//返回码503时返回
+  		"url":"xxx"		//返回图片的url链接
+  }
+  ```
+
+  解释
+
+  ```
+  # code码状态：
+  	200： 登出成功
+  	503： 接口调用失败
+  	400: 传参失败
+  # errMsg
+  	当code返回503时，返回的一个错误信息
+  # url
+  	返回图片url链接
+  # 案例
+  #入参
+  http请求：
+  POST /pd/app/upload HTTP/1.1
+  Host: 127.0.0.1:8080
+  Cookie: sessionid=MTYzNjQ0NjkzOXxOd3dBTkVGUlZqWkZUMFpYVTFOTFRVZFlWVUpVV1ZNMlVsSXlVRXhCTWxaV1RsbFVVbGMyVWsxUVdEUk9VRU5QUmpSRFNGaERVMUU9fBhYY6PXrpYW21WS3ciaVvMG1XByYdg9YeouFORvIDoQ
+  Content-Length: 418
+  Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+  
+  ----WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="pic"; filename="/C:/Users/LvXiuGang/Desktop/吕乐作业/20210523/微信图片_20210524084646.png"
+  Content-Type: image/png
+  
+  (data)
+  ----WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="FileKey"
+  
+  pic
+  ----WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="ActivityName"
+  
+  一个测试活动1
+  ----WebKitFormBoundary7MA4YWxkTrZu0gW
+  # 返回值参数
+  {
+      "code": 200,
+      "url": "http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"
+  }
+  ```
+  
+  
+
+---
+
+##### 小程序通用文件删除接口
+
+**接口说明**
+
+```
+这个接口只会根据指定url删除对应的物理文件，不会修改数据库里面任何文件信息，如果需要删除url和数据库里面的信息，需要单独调用特定的接口
 ```
 
-- **返回值**
 
-```bash
-// 返回json格式数据
-{
-    "code": "200/401/400/503",
-    "errMsg": "xxx" 
-}
-```
 
-解释：
+- **URL**
 
-```bash
-# code 返回码
-200： 修改密码成功
-401：使用原始密码认证失败
-400：非法传参
-503：调用接口失败
-```
+  ```
+  /pd/app/delPic
+  ```
+
+  
+
+- **method**
+
+  ```
+  POST
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  #body json
+  url		string		要删除的url链接		必传
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  # 返回格式json
+  {
+      	"code":	200/503	，	//必返
+  		"errMsg": "xxx"		//返回码503时返回
+  }
+  ```
+
+  解释
+
+  ```
+  # code码状态：
+  	200： 登出成功
+  	503： 接口调用失败
+  # errMsg
+  	当code返回503时，返回的一个错误信息
+  # 案例
+  #入参
+  {
+      "url":"http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"
+  }
+  #出参
+  {
+      "code": 200
+  }
+  
+  ```
+
+  
 
 ---
 
@@ -521,7 +682,7 @@ POST
           {
               "ActivityName": "一个测试活动1",
               "activityId": 2,
-              "end_flag": false,
+              "end_flag": false,  
               "groups": [
                   {
                       "GroupLeader": "吕秀刚",
@@ -552,16 +713,377 @@ POST
 - **URL**
 
   ```
-  
+  /pd/app/createOrder
   ```
 
   
 
 - **method**
 
+  ```
+  POST
+  ```
+
+  
+
 - **传参说明**
 
+  ```
+  	Customer 				string			客户（个人/公司）					必传
+  	CustomerPhone 			string			客户手机号码						 可选
+  	CustomerContent 		string			签约产品						   必传
+  	OrderTimeLimit			int			    签约合同/产品期限（单位年）			 可选
+  	OrderMoney				float			金额（元）						  可选
+  	OrderPicUrl				array			合同或者订购产品截图url			  必传
+  	OrderCompleteTime 		uint64			合同/产品签约时间					必传
+  	ActivityId 				uint64			活动id							必传
+  ```
+
+  
+
 - **返回参数说明**
+
+  ```
+  # 返回格式json
+  {
+      	"code":	200/400/503/701/702/704/705，	//必返
+  		"errMsg": "xxx"		//返回码503时返回
+  }
+  ```
+
+  解释
+
+  ```
+  # code码状态：
+  	200： 登出成功
+  	400: 传参错误
+  	503： 接口调用失败
+  	701：用户还未在这个活动的战队或者分组中，不能参加这个活动
+  	702：admin 角色用户不能创建订单
+  	703： 活动已经结束不能在创建订单
+  	704： 活动不存在
+  	705： 活动还没有开始不能创建订单
+  # errMsg
+  	当code返回503时，返回的一个错误信息
+  # 案例
+  # 入参 // 这里用户的角色是admin 返回702
+  {
+      "Customer":"中国铁通有限公司",
+      "CustomerPhone":"18260087527",
+      "CustomerContent":"集团宽带业务",
+      "OrderTimeLimit": 3,
+      "OrderMoney": 89000.23,
+      "OrderPicUrl": ["http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"],
+      "OrderCompleteTime":1636620329,
+      "ActivityId":2
+  }
+  # 出参
+  {
+      "code": 702
+  }
+  案例2
+  # 入参 用户不再是admin角色
+  {
+      "Customer":"中国铁通有限公司",
+      "CustomerPhone":"18260087527",
+      "CustomerContent":"集团宽带业务",
+      "OrderTimeLimit": 3,
+      "OrderMoney": 89000.23,
+      "OrderPicUrl": ["http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"],
+      "OrderCompleteTime":1636620329,
+      "ActivityId":2
+  }
+  #出参
+  {
+      "code": 200
+  }
+  ```
+
+  
+
+---
+
+##### 小程序用户查询个人订单接口
+
+**接口说明**
+
+```
+普通用户根据活动id查询个人的订单全部信息，admin根据活动id查询这个活动的所有订单
+```
+
+- **URL**
+
+  ```
+  /pd/app/getOrders
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  # param query
+  page	int 	当前页码					必传
+  step	int		步长，每页多少条数据			必传
+  activityId int	活动id					 必传
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  {
+      // 返回格式json
+      "code":200/400/503,
+      "errMsg":"xxxx",   // 当返回503时返回错误信息
+      "data": array,
+      "total": int
+  }
+  ```
+
+  解释
+  
+  ```
+  # code
+  200: 成功登录
+  400：传参不正确
+  503：接口不可用
+  #errMsg
+  503时返回错误信息 
+  # data
+  返回的分页数据
+  # total
+  一共多少条数据
+  #样例1
+  # 入参
+  http://127.0.0.1:8080/pd/app/getOrders?page=1&step=1&activityId=2
+  # 出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "AgreeName": "",						// 审批人
+              "Customer": "中国铁通有限公司",				// 客户
+              "CustomerContent": "集团宽带业务",		 // 签约业务	
+              "CustomerPhone": "18260087527",			// 客户手机
+              "IsAgree": false,						// 是否通过审批false 是未审批，true已经审批过了
+              "OrderCompleteTime": 1636620329,		// 合同/产品签约时间
+              "OrderMoney": 89000.23,					// 签约金额
+              "OrderPicUrl": [						//附件图片
+                  "http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"
+              ],
+              "OrderTimeLimit": 3,					//合同/产品签约期限
+              "Reason": "",							// 不为空则说明审批被拒绝，拒绝原因
+              "orderId": 1							// 订单id
+          }
+      ],
+      "total": 1
+  }
+  ```
+  
+  ---
+
+##### 小程序用户查询战队订单接口
+
+**接口说明**
+
+```
+这个接口只能当前会活动的队长才能查询，普通用户查询不了
+```
+
+- **URL**
+
+  ```
+  /pd/app/getGroupOrders
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  ```
+  # param query
+  page	int 	当前页码					必传
+  step	int		步长，每页多少条数据			必传
+  activityId int	活动id					 必传
+  ```
+
+  
+
+- **返回参数说明**
+
+  ```
+  {
+      // 返回格式json
+      "code":200/400/503/706,
+      "errMsg":"xxxx",   // 当返回503时返回错误信息
+      "data": array,
+      "total": int
+  }
+  ```
+
+  解释
+
+  ```
+  # code
+  200: 成功登录
+  400：传参不正确
+  503：接口不可用
+  706: 用户不是战队队长，无权查看整个战队订单信息
+  #errMsg
+  503时返回错误信息 
+  # data
+  返回的分页数据
+  # total
+  一共多少条数据
+  #样例1
+  # 入参
+  http://127.0.0.1:8080/pd/app/getGroupOrders?page=1&step=1&activityId=2
+  # 出参
+  {
+      "code": 200,
+      "data": [
+          {
+              "AgreeName": "",
+              "Customer": "中国铁通有限公司",
+              "CustomerContent": "集团宽带业务",
+              "CustomerPhone": "18260087527",
+              "IsAgree": false,
+              "OrderCompleteTime": 1636620329,
+              "OrderMoney": 89000.23,
+              "OrderPicUrl": [
+                  "http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"
+              ],
+              "OrderTimeLimit": 3,
+              "Reason": "",
+              "orderId": 1
+          }
+      ],
+      "total": 1
+  }
+  ```
+
+---
+
+##### 小程序待审批订单查询接口
+
+**接口说明**
+
+```
+配置的审批用户有权限查询特定的活动，admin校色用户能查询所有未审批订单
+```
+
+- **URL**
+
+  ```
+  /pd/app/getApproveOrders
+  ```
+
+  
+
+- **method**
+
+  ```
+  GET
+  ```
+
+  
+
+- **传参说明**
+
+  无
+
+- **返回参数说明**
+
+  ```
+  {
+      // 返回格式json
+      "code":200/503,
+      "errMsg":"xxxx",   // 当返回503时返回错误信息
+      "data": array
+  }
+  ```
+
+  解释：
+
+  ```
+  # code
+  200: 成功登录
+  503：接口不可用
+  #errMsg
+  错误信息
+  # data
+  待审批的订单
+  # 样例1
+  http://127.0.0.1:8080/pd/app/getApproveOrders
+  # 返回参数
+  {
+      "code": 200,
+      "data": [
+          {
+              "ActivityEndTime": 1638113130,
+              "ActivityName": "一个测试活动1",
+              "ActivityStartTime": 1635348330,
+              "ActivityType": "",
+              "Customer": "中国铁通有限公司",
+              "CustomerContent": "集团宽带业务",
+              "CustomerPhone": "18260087527",
+              "OrderCompleteTime": 1636620329,
+              "OrderMoney": 89000.23,
+              "OrderPicUrl": [
+                  "http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"
+              ],
+              "OrderTimeLimit": 3,
+              "orderId": 1,
+              "userCompany": "攀登",
+              "userPhone": "0",
+              "username": "admin"
+          },
+          {
+              "ActivityEndTime": 1638113130,
+              "ActivityName": "一个测试活动1",
+              "ActivityStartTime": 1635348330,
+              "ActivityType": "",
+              "Customer": "中国铁通有限公司2",
+              "CustomerContent": "集团宽带业务222",
+              "CustomerPhone": "18260087527",
+              "OrderCompleteTime": 1636620329,
+              "OrderMoney": 890200.25,
+              "OrderPicUrl": [
+                  "http://127.0.0.1:8080/pd/statics/一个测试活动1/98e0f013-77de-4a81-8f66-a2ce501bf6e8.png"
+              ],
+              "OrderTimeLimit": 2,
+              "orderId": 2,
+              "userCompany": "江苏联通",
+              "userPhone": "18260087527",
+              "username": "吕秀刚"
+          }
+      ]
+  }
+  ```
+
+  
+
+---
+
+#### 管理后台接口
 
 ---
 
